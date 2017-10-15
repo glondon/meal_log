@@ -51,6 +51,7 @@ public class MealLog
 		//TODO turn into array
 		System.out.println("1. Close application");
 		System.out.println("2. View my whys");
+		System.out.println("3. View menu");
 	}
 
 	public static void main(String[] args)
@@ -70,7 +71,23 @@ public class MealLog
 			try
 			{
 				int entered = Integer.parseInt(value);
-				System.out.println(entered);	
+				
+				switch(entered)
+				{
+					case 1:
+						System.out.println("Exiting Meal Log");
+						System.exit(0);
+						break;
+					case 2:
+						m.getWhys();
+						break;
+					case 3:
+						m.menu();
+						break;
+					default:
+						System.out.println("Not a valid entry");
+						break;
+				}
 			}
 			catch(Exception ex)
 			{
