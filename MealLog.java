@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.sql.*;
 
 public class MealLog
@@ -45,10 +46,44 @@ public class MealLog
 
 	}
 
+	private void menu()
+	{
+		//TODO turn into array
+		System.out.println("1. Close application");
+		System.out.println("2. View my whys");
+	}
+
 	public static void main(String[] args)
 	{
 		MealLog m = new MealLog();
-		m.getWhys();
-		System.exit(0);
+		//m.getWhys();
+
+		boolean stop = false;
+		boolean parsable = true;
+
+		while(stop == false)
+		{
+			System.out.println("Select an option");
+			Scanner read = new Scanner(System.in);
+			String value = read.next();	
+
+			try
+			{
+				int entered = Integer.parseInt(value);
+				System.out.println(entered);	
+			}
+			catch(Exception ex)
+			{
+				parsable = false;
+			}
+
+			if(!parsable)
+				System.out.println(value + " not a valid integer");
+			
+			stop = true;
+		}
+		
+		//TODO close DB connection
+		System.exit(0);	
 	}
 }
