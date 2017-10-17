@@ -48,23 +48,28 @@ public class MealLog
 
 	private void menu()
 	{
-		//TODO turn into array
-		System.out.println("1. Close application");
-		System.out.println("2. View my whys");
-		System.out.println("3. View menu");
+		String[] menu = {
+			"1. Close application",
+			"2. View my whys",
+			"3. View menu"
+		};
+
+		for(int i = 0; i < menu.length; i++)
+			System.out.println(menu[i]);
 	}
 
 	public static void main(String[] args)
 	{
 		MealLog m = new MealLog();
-		//m.getWhys();
 
 		boolean stop = false;
 		boolean parsable = true;
 
+		m.menu();
+
 		while(stop == false)
 		{
-			System.out.println("Select an option");
+			System.out.println("\nSelect an option\n");
 			Scanner read = new Scanner(System.in);
 			String value = read.next();	
 
