@@ -4,7 +4,7 @@ import java.sql.*;
 public class MealLog
 {
 
-	private Connection db;
+	public Connection db;
 	private Statement stmt;
 	private ResultSet rs;
 
@@ -103,7 +103,13 @@ public class MealLog
 				System.out.println(value + " not a valid integer");
 		}
 		
-		//TODO close DB connection
+		try{
+			m.db.close();
+		}
+		catch(Exception ex){
+			System.out.println("DB Error: " + ex);
+		}
+		
 		System.exit(0);	
 	}
 }
