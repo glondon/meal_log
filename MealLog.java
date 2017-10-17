@@ -61,6 +61,7 @@ public class MealLog
 	public static void main(String[] args)
 	{
 		MealLog m = new MealLog();
+		Scanner read = new Scanner(System.in);
 
 		boolean stop = false;
 		boolean parsable = true;
@@ -70,7 +71,6 @@ public class MealLog
 		while(stop == false)
 		{
 			System.out.println("\nSelect an option\n");
-			Scanner read = new Scanner(System.in);
 			String value = read.next();	
 
 			try
