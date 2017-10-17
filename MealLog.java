@@ -71,7 +71,16 @@ public class MealLog
 			try
 			{
 				int entered = Integer.parseInt(value);
-				
+			}
+			catch(Exception ex)
+			{
+				parsable = false;
+			}
+
+			if(!parsable)
+				System.out.println(value + " not a valid integer");
+			else
+			{
 				switch(entered)
 				{
 					case 1:
@@ -89,13 +98,6 @@ public class MealLog
 						break;
 				}
 			}
-			catch(Exception ex)
-			{
-				parsable = false;
-			}
-
-			if(!parsable)
-				System.out.println(value + " not a valid integer");
 			
 			stop = true;
 		}
