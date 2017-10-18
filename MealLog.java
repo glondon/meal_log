@@ -67,13 +67,25 @@ public class MealLog
 		String[] meals = {"breakfast", "lunch", "dinner"};
 		String[] result = {"pass", "fail"};
 
-		Scanner read = new Scanner(System.in);
-		String value = read.next();
+		Scanner mealRead = new Scanner(System.in);
+		String mealValue = mealRead.nextLine();
 
-		if(Arrays.asList(meals).contains(value))
+		String[] ent = mealValue.split(",");
+
+		if(ent.length == 3){
+			String meal = ent[0].trim();
+			String pass = ent[1].trim();
+			String date = ent[2].trim();
+			System.out.println("Entered: meal " + meal + " result: " + pass + " date: " + date);
+		}
+		else
+			System.out.println("Error: 3 values must be entered");
+
+		if(Arrays.asList(meals).contains(mealValue))
 			System.out.println("success");
 		else
 			System.out.println("fail");
+
 	}
 
 	public static void main(String[] args)
@@ -89,10 +101,11 @@ public class MealLog
 		while(stop == false)
 		{
 			System.out.println("\nSelect an option\n");
-			String value = read.next();	
+			String value = read.nextLine();
 
 			try
 			{
+				
 				int entered = Integer.parseInt(value);
 
 				switch(entered)
