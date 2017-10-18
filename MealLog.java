@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.sql.*;
+import java.util.Arrays;
 
 public class MealLog
 {
@@ -51,11 +52,28 @@ public class MealLog
 		String[] menu = {
 			"1. Close application",
 			"2. View my whys",
-			"3. View menu"
+			"3. View menu",
+			"4. Log a meal"
 		};
 
 		for(int i = 0; i < menu.length; i++)
 			System.out.println(menu[i]);
+	}
+
+	private void logMeal()
+	{
+		System.out.println("\nEnter meal period, pass/fail, & date (separated by commas):\n");
+
+		String[] meals = {"breakfast", "lunch", "dinner"};
+		String[] result = {"pass", "fail"};
+
+		Scanner read = new Scanner(System.in);
+		String value = read.next();
+
+		if(Arrays.asList(meals).contains(value))
+			System.out.println("success");
+		else
+			System.out.println("fail");
 	}
 
 	public static void main(String[] args)
@@ -88,6 +106,9 @@ public class MealLog
 						break;
 					case 3:
 						m.menu();
+						break;
+					case 4:
+						m.logMeal();
 						break;
 					default:
 						System.out.println("Not a valid entry");
