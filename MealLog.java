@@ -1,6 +1,10 @@
 import java.util.Scanner;
 import java.sql.*;
 import java.util.Arrays;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class MealLog
 {
@@ -71,20 +75,39 @@ public class MealLog
 		String mealValue = mealRead.nextLine();
 
 		String[] ent = mealValue.split(",");
+		mealRead.close();
 
 		if(ent.length == 3){
 			String meal = ent[0].trim();
 			String pass = ent[1].trim();
 			String date = ent[2].trim();
-			System.out.println("Entered: meal " + meal + " result: " + pass + " date: " + date);
+
+			//TODO handle parsing and validating date
+			DateFormat df = new SimpleDateFormat("YYYY-mm-dd");
+			Date pDate;
+			boolean dateValidated = true;
+
+			try{
+				pDate = df.parse(date);
+				String saveDate = df.format(pDate);
+				System.out.println("Entered: meal " + meal + " result: " + pass + " date: " + saveDate);
+			}
+			catch(ParseException e){
+				dateValidated = false;
+			}
+
+			if(!dateValidated)
+				System.out.println("Date validation failed");
 		}
 		else
 			System.out.println("Error: 3 values must be entered");
 
+		/*
 		if(Arrays.asList(meals).contains(mealValue))
 			System.out.println("success");
 		else
 			System.out.println("fail");
+		*/
 
 	}
 
@@ -128,7 +151,7 @@ public class MealLog
 						break;
 				}
 			}
-			catch(Exception ex)
+			catch(NumberFormatException e)
 			{
 				parsable = false;
 			}
