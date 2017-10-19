@@ -101,7 +101,23 @@ public class MealLog
 				try{
 					pDate = df.parse(date);
 					String saveDate = df.format(pDate);
-					System.out.println("Entered: meal " + meal + " result: " + pass + " sugars: " + sugars + " date: " + saveDate);
+					//System.out.println("Entered: meal " + meal + " result: " + pass + " sugars: " + sugars + " date: " + saveDate);
+
+					try{
+						String query = "INSERT INTO meals (time, result, sugar, date_consumed) VALUES (?, ?, ?, ?)";
+
+						PreparedStatement stmt = db.prepareStatement(query);
+						stmt.setString(1, meal);
+						stmt.setString(2, pass);
+						stmt.setString(3, sugars);
+						stmt.setString(4, saveDate);
+						stmt.execute();
+
+						System.out.println("Meal successfully logged");
+					}
+					catch(Exception e){
+						System.out.println("DB insert error: " + e);
+					}
 				}
 				catch(ParseException e){
 					System.out.println("Date validation failed: " + e);
