@@ -83,7 +83,7 @@ public class MealLog
 			String sugars = ent[2].trim();
 			String date = ent[3].trim();
 
-			DateFormat df = new SimpleDateFormat("YYYY-mm-dd");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date pDate;
 			boolean mealValidated = true;
 			boolean passValidated = true;
