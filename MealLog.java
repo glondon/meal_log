@@ -66,37 +66,42 @@ public class MealLog
 
 	private void logMeal()
 	{
-		System.out.println("\nEnter meal period, pass/fail, & date (separated by commas):\n");
+		System.out.println("\nEnter meal period, pass/fail, sugar, & date (separated by commas):\n");
 
 		String[] meals = {"breakfast", "lunch", "dinner"};
 		String[] result = {"pass", "fail"};
+		String[] sugar = {"yes", "no"};
 
 		Scanner mealRead = new Scanner(System.in);
 		String mealValue = mealRead.nextLine();
 
 		String[] ent = mealValue.split(",");
 
-		if(ent.length == 3){
+		if(ent.length == 4){
 			String meal = ent[0].trim();
 			String pass = ent[1].trim();
-			String date = ent[2].trim();
+			String sugars = ent[2].trim();
+			String date = ent[3].trim();
 
 			DateFormat df = new SimpleDateFormat("YYYY-mm-dd");
 			Date pDate;
 			boolean mealValidated = true;
 			boolean passValidated = true;
+			boolean sugarsValidated = true;
 
 			if(!Arrays.asList(meals).contains(meal.toLowerCase()))
 				mealValidated = false;
 			if(!Arrays.asList(result).contains(pass.toLowerCase()))
 				passValidated = false;
+			if(!Arrays.asList(sugar).contains(sugars.toLowerCase()))
+				sugarsValidated = false;
 
-			if(mealValidated && passValidated)
+			if(mealValidated && passValidated && sugarsValidated)
 			{
 				try{
 					pDate = df.parse(date);
 					String saveDate = df.format(pDate);
-					System.out.println("Entered: meal " + meal + " result: " + pass + " date: " + saveDate);
+					System.out.println("Entered: meal " + meal + " result: " + pass + " sugars: " + sugars + " date: " + saveDate);
 				}
 				catch(ParseException e){
 					System.out.println("Date validation failed: " + e);
@@ -108,11 +113,13 @@ public class MealLog
 					System.out.println(meal + " is not a valid meal period");
 				if(!passValidated)
 					System.out.println(pass + " is not a valid pass/fail option");
+				if(!sugarsValidated)
+					System.out.println(sugars + " is not a valid sugar option");
 			}
 
 		}
 		else
-			System.out.println("Error: 3 values must be entered");
+			System.out.println("Error: 4 values must be entered");
 
 	}
 
