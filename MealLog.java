@@ -75,39 +75,44 @@ public class MealLog
 		String mealValue = mealRead.nextLine();
 
 		String[] ent = mealValue.split(",");
-		mealRead.close();
 
 		if(ent.length == 3){
 			String meal = ent[0].trim();
 			String pass = ent[1].trim();
 			String date = ent[2].trim();
 
-			//TODO handle parsing and validating date
 			DateFormat df = new SimpleDateFormat("YYYY-mm-dd");
 			Date pDate;
-			boolean dateValidated = true;
+			boolean mealValidated = true;
+			boolean passValidated = true;
 
-			try{
-				pDate = df.parse(date);
-				String saveDate = df.format(pDate);
-				System.out.println("Entered: meal " + meal + " result: " + pass + " date: " + saveDate);
+			if(!Arrays.asList(meals).contains(meal))
+				mealValidated = false;
+			if(!Arrays.asList(result).contains(pass))
+				passValidated = false;
+
+			if(mealValidated && passValidated)
+			{
+				try{
+					pDate = df.parse(date);
+					String saveDate = df.format(pDate);
+					System.out.println("Entered: meal " + meal + " result: " + pass + " date: " + saveDate);
+				}
+				catch(ParseException e){
+					System.out.println("Date validation failed: " + e);
+				}	
 			}
-			catch(ParseException e){
-				dateValidated = false;
+			else
+			{
+				if(!mealValidated)
+					System.out.println(meal + " is not a valid meal period");
+				if(!passValidated)
+					System.out.println(pass + " is not a valid pass/fail option");
 			}
 
-			if(!dateValidated)
-				System.out.println("Date validation failed");
 		}
 		else
 			System.out.println("Error: 3 values must be entered");
-
-		/*
-		if(Arrays.asList(meals).contains(mealValue))
-			System.out.println("success");
-		else
-			System.out.println("fail");
-		*/
 
 	}
 
@@ -117,47 +122,46 @@ public class MealLog
 		Scanner read = new Scanner(System.in);
 
 		boolean stop = false;
-		boolean parsable = true;
 
 		m.menu();
 
 		while(stop == false)
 		{
 			System.out.println("\nSelect an option\n");
-			String value = read.nextLine();
+			String value = read.next();
 
-			try
+			if(value != "")
 			{
-				
-				int entered = Integer.parseInt(value);
-
-				switch(entered)
+				try
 				{
-					case 1:
-						System.out.println("Exiting Meal Log");
-						stop = true;
-						break;
-					case 2:
-						m.getWhys();
-						break;
-					case 3:
-						m.menu();
-						break;
-					case 4:
-						m.logMeal();
-						break;
-					default:
-						System.out.println("Not a valid entry");
-						break;
+					
+					int entered = Integer.parseInt(value);
+
+					switch(entered)
+					{
+						case 1:
+							System.out.println("Exiting Meal Log");
+							stop = true;
+							break;
+						case 2:
+							m.getWhys();
+							break;
+						case 3:
+							m.menu();
+							break;
+						case 4:
+							m.logMeal();
+							break;
+						default:
+							System.out.println("Not a valid entry");
+							break;
+					}
+				}
+				catch(NumberFormatException e)
+				{
+					System.out.println(value + " not a valid integer: " + e);
 				}
 			}
-			catch(NumberFormatException e)
-			{
-				parsable = false;
-			}
-
-			if(!parsable)
-				System.out.println(value + " not a valid integer");
 		}
 		
 		try{
