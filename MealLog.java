@@ -86,9 +86,9 @@ public class MealLog
 			boolean mealValidated = true;
 			boolean passValidated = true;
 
-			if(!Arrays.asList(meals).contains(meal))
+			if(!Arrays.asList(meals).contains(meal.toLowerCase()))
 				mealValidated = false;
-			if(!Arrays.asList(result).contains(pass))
+			if(!Arrays.asList(result).contains(pass.toLowerCase()))
 				passValidated = false;
 
 			if(mealValidated && passValidated)
