@@ -21,9 +21,9 @@ public class MealLog
 			db = DriverManager.getConnection("jdbc:mysql://localhost:3306/meal_log", "root", "");
 			stmt = db.createStatement();
 		}
-		catch(Exception ex)
+		catch(Exception e)
 		{
-			System.out.println("DB Error: " + ex);
+			System.out.println("DB Error: " + e);
 		}
 			
 	}
@@ -42,9 +42,9 @@ public class MealLog
 			rs.close();
 
 		}  
-		catch(Exception ex)
+		catch(SQLException e)
 		{
-			System.out.println("DB Error: " + ex);
+			System.out.println("DB Error: " + e);
 		}
 			
 
@@ -115,7 +115,7 @@ public class MealLog
 
 						System.out.println("Meal successfully logged");
 					}
-					catch(Exception e){
+					catch(SQLException e){
 						System.out.println("DB insert error: " + e);
 					}
 				}
@@ -190,8 +190,8 @@ public class MealLog
 		try{
 			m.db.close();
 		}
-		catch(Exception ex){
-			System.out.println("DB Error: " + ex);
+		catch(SQLException e){
+			System.out.println("DB Error: " + e);
 		}
 		
 		System.exit(0);	
