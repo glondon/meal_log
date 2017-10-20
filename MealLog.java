@@ -152,16 +152,18 @@ public class MealLog
 		try
 		{
 			rs = stmt.executeQuery(query);
-			boolean result = false;
+			int count = 0;
 
 			while(rs.next()){
 				System.out.println(rs.getInt("id") + " " + rs.getString("time") + " " + rs.getString("result") + " " + 
 					rs.getString("sugar") + " " + rs.getDate("date_consumed"));
 
-				result = true;
+				count++;
 			}
 				
-			if(!result)
+			if(count > 0)
+				System.out.println(count + " results found");
+			else
 				System.out.println("No results");
 
 			rs.close();
