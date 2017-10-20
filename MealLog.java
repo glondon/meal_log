@@ -155,14 +155,14 @@ public class MealLog
 			int count = 0;
 
 			while(rs.next()){
-				System.out.println(rs.getInt("id") + " " + rs.getString("time") + " " + rs.getString("result") + " " + 
-					rs.getString("sugar") + " " + rs.getDate("date_consumed"));
+				System.out.printf("%-2d  %-8s  %-8s  %-6s %tF %n", 
+					rs.getInt("id"), rs.getString("time"), rs.getString("result"), rs.getString("sugar"), rs.getDate("date_consumed"));
 
 				count++;
 			}
 				
 			if(count > 0)
-				System.out.println(count + " results found");
+				System.out.println("\n" + count + " results found");
 			else
 				System.out.println("No results");
 
