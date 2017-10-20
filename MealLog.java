@@ -103,7 +103,6 @@ public class MealLog
 				try{
 					pDate = df.parse(date);
 					String saveDate = df.format(pDate);
-					//System.out.println("Entered: meal " + meal + " result: " + pass + " sugars: " + sugars + " date: " + saveDate);
 
 					try{
 						String query = "INSERT INTO meals (time, result, sugar, date_consumed) VALUES (?, ?, ?, ?)";
@@ -143,9 +142,25 @@ public class MealLog
 
 	private void viewMeals()
 	{
-		//TODO default to viewing meals since beginning of month
+		//TODO default to viewing meals since beginning of month, then today, then a specific month
 		LocalDate today = LocalDate.now();
-		System.out.println(today.withDayOfMonth(1));
+		String dateParam = today.withDayOfMonth(1).toString();
+		String query = "SELECT * FROM meals WHERE date_consumed >= '" + dateParam + "' ORDER BY date_consumed DESC";
+
+		System.out.println("Meals eaten since " + dateParam);
+
+		try
+		{
+			rs = stmt.executeQuery(query);
+			while(rs.next())
+				System.out.println(rs.getInt("id") + " " + rs.getString("time") + " " + rs.getString("result") + " " + 
+					rs.getString("sugar") + " " + rs.getDate("date_consumed"));
+
+			rs.close();
+		}
+		catch(SQLException e){
+			System.out.println("DB error: " + e);
+		}
 	}
 
 	public static void main(String[] args)
