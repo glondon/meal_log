@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.util.Date;
+import java.time.LocalDate;
 
 public class MealLog
 {
@@ -57,7 +58,8 @@ public class MealLog
 			"1. Close application",
 			"2. View my whys",
 			"3. View menu",
-			"4. Log a meal"
+			"4. Log a meal",
+			"5. View meals"
 		};
 
 		for(int i = 0; i < menu.length; i++)
@@ -101,7 +103,6 @@ public class MealLog
 				try{
 					pDate = df.parse(date);
 					String saveDate = df.format(pDate);
-					//System.out.println("Entered: meal " + meal + " result: " + pass + " sugars: " + sugars + " date: " + saveDate);
 
 					try{
 						String query = "INSERT INTO meals (time, result, sugar, date_consumed) VALUES (?, ?, ?, ?)";
@@ -139,6 +140,43 @@ public class MealLog
 
 	}
 
+	private void viewMeals()
+	{
+		//TODO set up for today, then a specific date
+		LocalDate today = LocalDate.now();
+		String dateParam = today.withDayOfMonth(1).toString();
+		String query = "SELECT * FROM meals WHERE date_consumed >= '" + dateParam + "' ORDER BY date_consumed DESC";
+
+		System.out.println("Meals eaten since " + dateParam);
+
+		try
+		{
+			rs = stmt.executeQuery(query);
+			int count = 0;
+
+			while(rs.next()){
+
+				if(count == 0)
+					System.out.printf("%-3s %-8s %-9s %-7s %-6s %n", "ID", "MEAL", "RESULT", "SUGAR", "DATE");
+
+				System.out.printf("%-2d  %-8s  %-8s  %-6s %tF %n", 
+					rs.getInt("id"), rs.getString("time"), rs.getString("result"), rs.getString("sugar"), rs.getDate("date_consumed"));
+
+				count++;
+			}
+				
+			if(count > 0)
+				System.out.println("\n" + count + " results found");
+			else
+				System.out.println("No results");
+
+			rs.close();
+		}
+		catch(SQLException e){
+			System.out.println("DB error: " + e);
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		MealLog m = new MealLog();
@@ -174,6 +212,9 @@ public class MealLog
 							break;
 						case 4:
 							m.logMeal();
+							break;
+						case 5:
+							m.viewMeals();
 							break;
 						default:
 							System.out.println("Not a valid entry");
