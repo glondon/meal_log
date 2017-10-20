@@ -142,7 +142,7 @@ public class MealLog
 
 	private void viewMeals()
 	{
-		//TODO default to viewing meals since beginning of month, then today, then a specific month
+		//TODO set up for today, then a specific date
 		LocalDate today = LocalDate.now();
 		String dateParam = today.withDayOfMonth(1).toString();
 		String query = "SELECT * FROM meals WHERE date_consumed >= '" + dateParam + "' ORDER BY date_consumed DESC";
@@ -152,9 +152,17 @@ public class MealLog
 		try
 		{
 			rs = stmt.executeQuery(query);
-			while(rs.next())
+			boolean result = false;
+
+			while(rs.next()){
 				System.out.println(rs.getInt("id") + " " + rs.getString("time") + " " + rs.getString("result") + " " + 
 					rs.getString("sugar") + " " + rs.getDate("date_consumed"));
+
+				result = true;
+			}
+				
+			if(!result)
+				System.out.println("No results");
 
 			rs.close();
 		}
