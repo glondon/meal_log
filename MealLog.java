@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.util.Date;
+import java.time.LocalDate;
 
 public class MealLog
 {
@@ -57,7 +58,8 @@ public class MealLog
 			"1. Close application",
 			"2. View my whys",
 			"3. View menu",
-			"4. Log a meal"
+			"4. Log a meal",
+			"5. View meals"
 		};
 
 		for(int i = 0; i < menu.length; i++)
@@ -139,6 +141,13 @@ public class MealLog
 
 	}
 
+	private void viewMeals()
+	{
+		//TODO default to viewing meals since beginning of month
+		LocalDate today = LocalDate.now();
+		System.out.println(today.withDayOfMonth(1));
+	}
+
 	public static void main(String[] args)
 	{
 		MealLog m = new MealLog();
@@ -174,6 +183,9 @@ public class MealLog
 							break;
 						case 4:
 							m.logMeal();
+							break;
+						case 5:
+							m.viewMeals();
 							break;
 						default:
 							System.out.println("Not a valid entry");
