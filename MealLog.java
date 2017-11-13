@@ -31,14 +31,21 @@ public class MealLog
 
 	private void getWhys()
 	{
-		String query = "SELECT why FROM whys ORDER BY why DESC";
+		String query = "SELECT why FROM whys ORDER BY why";
 		System.out.println("Reasons to lose weight\n");
-			
+		
+		int counter = 1;
+
 		try
 		{
 			rs = stmt.executeQuery(query);
 			while(rs.next())
-				System.out.println(rs.getString(1));
+			{
+				System.out.println(counter + ". " + rs.getString(1));
+				System.out.println("-------------------------------");
+				counter++;
+			}
+				
 
 			rs.close();
 
@@ -47,8 +54,6 @@ public class MealLog
 		{
 			System.out.println("DB Error: " + e);
 		}
-			
-
 
 	}
 
