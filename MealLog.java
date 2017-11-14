@@ -14,6 +14,10 @@ public class MealLog
 	private Statement stmt;
 	private ResultSet rs;
 
+	private static final String[] MEALS = {"breakfast", "lunch", "dinner"};
+	private static final String[] RESULT = {"win", "tie", "loss"};
+	private static final String[] SUGAR = {"yes", "no"};
+
 	public MealLog()
 	{
 		try
@@ -75,10 +79,6 @@ public class MealLog
 	{
 		System.out.println("\nEnter meal period, pass/fail, sugar, & date (separated by commas):\n");
 
-		String[] meals = {"breakfast", "lunch", "dinner"};
-		String[] result = {"win", "tie", "loss"};
-		String[] sugar = {"yes", "no"};
-
 		Scanner mealRead = new Scanner(System.in);
 		String mealValue = mealRead.nextLine();
 
@@ -96,11 +96,11 @@ public class MealLog
 			boolean passValidated = true;
 			boolean sugarsValidated = true;
 
-			if(!Arrays.asList(meals).contains(meal.toLowerCase()))
+			if(!Arrays.asList(MEALS).contains(meal.toLowerCase()))
 				mealValidated = false;
-			if(!Arrays.asList(result).contains(pass.toLowerCase()))
+			if(!Arrays.asList(RESULT).contains(pass.toLowerCase()))
 				passValidated = false;
-			if(!Arrays.asList(sugar).contains(sugars.toLowerCase()))
+			if(!Arrays.asList(SUGAR).contains(sugars.toLowerCase()))
 				sugarsValidated = false;
 
 			if(mealValidated && passValidated && sugarsValidated)
