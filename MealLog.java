@@ -77,7 +77,7 @@ public class MealLog
 
 	private void logMeal()
 	{
-		System.out.println("\nEnter meal period, pass/fail, sugar, & date (separated by commas):\n");
+		System.out.println("\nEnter meal period, (win/tie/loss), sugar, & date (separated by commas):\n");
 
 		Scanner mealRead = new Scanner(System.in);
 		String mealValue = mealRead.nextLine();
