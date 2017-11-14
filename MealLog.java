@@ -76,7 +76,7 @@ public class MealLog
 		System.out.println("\nEnter meal period, pass/fail, sugar, & date (separated by commas):\n");
 
 		String[] meals = {"breakfast", "lunch", "dinner"};
-		String[] result = {"pass", "fail"};
+		String[] result = {"win", "tie", "loss"};
 		String[] sugar = {"yes", "no"};
 
 		Scanner mealRead = new Scanner(System.in);
