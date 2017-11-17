@@ -148,12 +148,12 @@ public class MealLog
 
 		if(ent.length == 3)
 		{
-			String ex = ent[0].trim();
-			String al = ent[1].trim();
-			String su = ent[2].trim();
-
 			try
 			{
+				String ex = ent[0].trim();
+				String al = ent[1].trim();
+				String su = ent[2].trim();
+
 				int exercised = Integer.parseInt(ex);
 				int alcohol = Integer.parseInt(al);
 				int sugar = Integer.parseInt(su);
@@ -161,12 +161,12 @@ public class MealLog
 				boolean alPass = true;
 				boolean suPass = true;
 
-				if(exercised != 0 || exercised != 1) exPass = false;
-				if(alcohol != 0 || alcohol != 1) alPass = false;
-				if(sugar != 0 || sugar != 1) suPass = false;
+				if(exercised < 0 || exercised > 1) exPass = false;
+				if(alcohol < 0 || alcohol > 1) alPass = false;
+				if(sugar < 0 || sugar > 1) suPass = false;
 
-				//if(exPass && alPass && suPass)
-				//{
+				if(exPass && alPass && suPass)
+				{
 					Date today = new Date();
 					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 					String saveDate = df.format(today);
@@ -187,13 +187,13 @@ public class MealLog
 					{
 						System.out.println("Problem inserting data: " + e);
 					}
-				//}
-				//else
-				//{
-				//	if(!exPass) System.out.println(exercised + " is not an allowed exercised value");
-				//	if(!alPass) System.out.println(alcohol + " is not an allowed alcohol value");
-				//	if(!suPass) System.out.println(sugar + " is not an allowed sugar value");
-				//}
+				}
+				else
+				{
+					if(!exPass) System.out.println(exercised + " is not an allowed exercised value");
+					if(!alPass) System.out.println(alcohol + " is not an allowed alcohol value");
+					if(!suPass) System.out.println(sugar + " is not an allowed sugar value");
+				}
 			}
 			catch(NumberFormatException e)
 			{
