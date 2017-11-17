@@ -168,7 +168,7 @@ public class MealLog
 
 				if(exPass && alPass && suPass)
 				{
-					today = new Date();
+					Date today = new Date();
 					String query = "INSERT INTO daily (exercised, alcohol, sugar, date_affected) VALUES (?, ?, ?, ?)";
 
 					try
@@ -177,7 +177,7 @@ public class MealLog
 						stmt.setInt(1, exercised);
 						stmt.setInt(2, alcohol);
 						stmt.setInt(3, sugar);
-						stmt.setString(4, today);
+						stmt.setString(4, today.toString());
 						stmt.execute();
 
 						System.out.println("Daily result successfully logged");
