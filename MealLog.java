@@ -16,7 +16,6 @@ public class MealLog
 
 	private static final String[] MEALS = {"breakfast", "lunch", "dinner"};
 	private static final String[] RESULT = {"win", "tie", "loss"};
-	private static final String[] SUGAR = {"yes", "no"};
 
 	public MealLog()
 	{
@@ -68,7 +67,8 @@ public class MealLog
 			"2. View my whys",
 			"3. View menu",
 			"4. Log a meal",
-			"5. View meals"
+			"5. View meals",
+			"6. Log daily results"
 		};
 
 		for(int i = 0; i < menu.length; i++)
@@ -77,46 +77,41 @@ public class MealLog
 
 	private void logMeal()
 	{
-		System.out.println("\nEnter meal period, (win/tie/loss), sugar, & date (separated by commas):\n");
+		System.out.println("\nEnter meal period, (win/tie/loss), & date (separated by commas):\n");
 
 		Scanner mealRead = new Scanner(System.in);
 		String mealValue = mealRead.nextLine();
 
 		String[] ent = mealValue.split(",");
 
-		if(ent.length == 4){
+		if(ent.length == 3){
 			String meal = ent[0].trim();
 			String pass = ent[1].trim();
-			String sugars = ent[2].trim();
-			String date = ent[3].trim();
+			String date = ent[2].trim();
 
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date pDate;
 			boolean mealValidated = true;
 			boolean passValidated = true;
-			boolean sugarsValidated = true;
 
 			if(!Arrays.asList(MEALS).contains(meal.toLowerCase()))
 				mealValidated = false;
 			if(!Arrays.asList(RESULT).contains(pass.toLowerCase()))
 				passValidated = false;
-			if(!Arrays.asList(SUGAR).contains(sugars.toLowerCase()))
-				sugarsValidated = false;
 
-			if(mealValidated && passValidated && sugarsValidated)
+			if(mealValidated && passValidated)
 			{
 				try{
 					pDate = df.parse(date);
 					String saveDate = df.format(pDate);
 
 					try{
-						String query = "INSERT INTO meals (time, result, sugar, date_consumed) VALUES (?, ?, ?, ?)";
+						String query = "INSERT INTO meals (time, result, date_consumed) VALUES (?, ?, ?)";
 
 						PreparedStatement stmt = db.prepareStatement(query);
 						stmt.setString(1, meal);
 						stmt.setString(2, pass);
-						stmt.setString(3, sugars);
-						stmt.setString(4, saveDate);
+						stmt.setString(3, saveDate);
 						stmt.execute();
 
 						System.out.println("Meal successfully logged");
@@ -135,14 +130,78 @@ public class MealLog
 					System.out.println(meal + " is not a valid meal period");
 				if(!passValidated)
 					System.out.println(pass + " is not a valid pass/fail option");
-				if(!sugarsValidated)
-					System.out.println(sugars + " is not a valid sugar option");
 			}
 
 		}
 		else
-			System.out.println("Error: 4 values must be entered");
+			System.out.println("Error: 3 values must be entered");
 
+	}
+
+	private void logDaily()
+	{
+		System.out.println("Enter 1 or 0 (true/false) - daily Exercise, alcohol, & sugar (comma separated):\n");
+
+		Scanner entered = new Scanner(System.in);
+		String values = entered.nextLine();
+		String[] ent = values.split(",");
+
+		if(ent.length == 3)
+		{
+			try
+			{
+				String ex = ent[0].trim();
+				String al = ent[1].trim();
+				String su = ent[2].trim();
+
+				int exercised = Integer.parseInt(ex);
+				int alcohol = Integer.parseInt(al);
+				int sugar = Integer.parseInt(su);
+				boolean exPass = true;
+				boolean alPass = true;
+				boolean suPass = true;
+
+				if(exercised < 0 || exercised > 1) exPass = false;
+				if(alcohol < 0 || alcohol > 1) alPass = false;
+				if(sugar < 0 || sugar > 1) suPass = false;
+
+				if(exPass && alPass && suPass)
+				{
+					Date today = new Date();
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					String saveDate = df.format(today);
+					String query = "INSERT INTO daily (exercised, alcohol, sugar, date_affected) VALUES (?, ?, ?, ?)";
+
+					try
+					{
+						PreparedStatement stmt = db.prepareStatement(query);
+						stmt.setInt(1, exercised);
+						stmt.setInt(2, alcohol);
+						stmt.setInt(3, sugar);
+						stmt.setString(4, saveDate);
+						stmt.execute();
+
+						System.out.println("Daily result successfully logged");
+					}
+					catch(SQLException e)
+					{
+						System.out.println("Problem inserting data: " + e);
+					}
+				}
+				else
+				{
+					if(!exPass) System.out.println(exercised + " is not an allowed exercised value");
+					if(!alPass) System.out.println(alcohol + " is not an allowed alcohol value");
+					if(!suPass) System.out.println(sugar + " is not an allowed sugar value");
+				}
+			}
+			catch(NumberFormatException e)
+			{
+				System.out.println("Invalid integer entered: " + e);
+			}
+		}
+		else
+			System.out.println("Only 3 values can be entered\n");
 	}
 
 	private void viewMeals()
@@ -220,6 +279,9 @@ public class MealLog
 							break;
 						case 5:
 							m.viewMeals();
+							break;
+						case 6:
+							m.logDaily();
 							break;
 						default:
 							System.out.println("Not a valid entry");
