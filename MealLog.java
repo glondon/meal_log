@@ -16,7 +16,6 @@ public class MealLog
 
 	private static final String[] MEALS = {"breakfast", "lunch", "dinner"};
 	private static final String[] RESULT = {"win", "tie", "loss"};
-	private static final int[] ALLOWED = {0, 1};
 
 	public MealLog()
 	{
@@ -141,7 +140,7 @@ public class MealLog
 
 	private void logDaily()
 	{
-		System.out.println("Enter 1 or 0 (true/false) for daily Exercise, alcohol, & sugar (comma separated):\n");
+		System.out.println("Enter 1 or 0 (true/false) - daily Exercise, alcohol, & sugar (comma separated):\n");
 
 		Scanner entered = new Scanner(System.in);
 		String values = entered.nextLine();
@@ -162,13 +161,15 @@ public class MealLog
 				boolean alPass = true;
 				boolean suPass = true;
 
-				if(!Arrays.asList(ALLOWED).contains(exercised)) exPass = false;
-				if(!Arrays.asList(ALLOWED).contains(alcohol)) alPass = false;
-				if(!Arrays.asList(ALLOWED).contains(sugar)) suPass = false;
+				if(exercised != 0 || exercised != 1) exPass = false;
+				if(alcohol != 0 || alcohol != 1) alPass = false;
+				if(sugar != 0 || sugar != 1) suPass = false;
 
-				if(exPass && alPass && suPass)
-				{
+				//if(exPass && alPass && suPass)
+				//{
 					Date today = new Date();
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					String saveDate = df.format(today);
 					String query = "INSERT INTO daily (exercised, alcohol, sugar, date_affected) VALUES (?, ?, ?, ?)";
 
 					try
@@ -177,7 +178,7 @@ public class MealLog
 						stmt.setInt(1, exercised);
 						stmt.setInt(2, alcohol);
 						stmt.setInt(3, sugar);
-						stmt.setString(4, today.toString());
+						stmt.setString(4, saveDate);
 						stmt.execute();
 
 						System.out.println("Daily result successfully logged");
@@ -186,13 +187,13 @@ public class MealLog
 					{
 						System.out.println("Problem inserting data: " + e);
 					}
-				}
-				else
-				{
-					if(!exPass) System.out.println(exercised + " is not an allowed value");
-					if(!alPass) System.out.println(alcohol + " is not an allowed value");
-					if(!suPass) System.out.println(sugar + " is not an allowed value");
-				}
+				//}
+				//else
+				//{
+				//	if(!exPass) System.out.println(exercised + " is not an allowed exercised value");
+				//	if(!alPass) System.out.println(alcohol + " is not an allowed alcohol value");
+				//	if(!suPass) System.out.println(sugar + " is not an allowed sugar value");
+				//}
 			}
 			catch(NumberFormatException e)
 			{
