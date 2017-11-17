@@ -16,6 +16,7 @@ public class MealLog
 
 	private static final String[] MEALS = {"breakfast", "lunch", "dinner"};
 	private static final String[] RESULT = {"win", "tie", "loss"};
+	private static final int[] ALLOWED = {0, 1};
 
 	public MealLog()
 	{
@@ -157,6 +158,24 @@ public class MealLog
 				int exercised = Integer.parseInt(ex);
 				int alcohol = Integer.parseInt(al);
 				int sugar = Integer.parseInt(su);
+				boolean exPass = true;
+				boolean alPass = true;
+				boolean suPass = true;
+
+				if(!Arrays.asList(ALLOWED).contains(exercised)) exPass = false;
+				if(!Arrays.asList(ALLOWED).contains(alcohol)) alPass = false;
+				if(!Arrays.asList(ALLOWED).contains(sugar)) suPass = false;
+
+				if(exPass && alPass && suPass)
+				{
+
+				}
+				else
+				{
+					if(!exPass) System.out.println(exercised + " is not an allowed value");
+					if(!alPass) System.out.println(alcohol + " is not an allowed value");
+					if(!suPass) System.out.println(sugar + " is not an allowed value");
+				}
 			}
 			catch(NumberFormatException e)
 			{
