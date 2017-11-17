@@ -67,7 +67,8 @@ public class MealLog
 			"2. View my whys",
 			"3. View menu",
 			"4. Log a meal",
-			"5. View meals"
+			"5. View meals",
+			"6. Log daily results"
 		};
 
 		for(int i = 0; i < menu.length; i++)
@@ -135,6 +136,11 @@ public class MealLog
 		else
 			System.out.println("Error: 3 values must be entered");
 
+	}
+
+	private void logDaily()
+	{
+		
 	}
 
 	private void viewMeals()
@@ -212,6 +218,9 @@ public class MealLog
 							break;
 						case 5:
 							m.viewMeals();
+							break;
+						case 6:
+							m.logDaily();
 							break;
 						default:
 							System.out.println("Not a valid entry");
