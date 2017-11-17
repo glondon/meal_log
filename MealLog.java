@@ -140,7 +140,31 @@ public class MealLog
 
 	private void logDaily()
 	{
-		
+		System.out.println("Enter 1 or 0 (true/false) for daily Exercise, alcohol, & sugar (comma separated):\n");
+
+		Scanner entered = new Scanner(System.in);
+		String values = entered.nextLine();
+		String[] ent = values.split(",");
+
+		if(ent.length == 3)
+		{
+			String ex = ent[0].trim();
+			String al = ent[1].trim();
+			String su = ent[2].trim();
+
+			try
+			{
+				int exercised = Integer.parseInt(ex);
+				int alcohol = Integer.parseInt(al);
+				int sugar = Integer.parseInt(su);
+			}
+			catch(NumberFormatException e)
+			{
+				System.out.println("Invalid integer entered: " + e);
+			}
+		}
+		else
+			System.out.println("Only 3 values can be entered\n");
 	}
 
 	private void viewMeals()
