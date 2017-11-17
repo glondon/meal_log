@@ -168,7 +168,24 @@ public class MealLog
 
 				if(exPass && alPass && suPass)
 				{
+					today = new Date();
+					String query = "INSERT INTO daily (exercised, alcohol, sugar, date_affected) VALUES (?, ?, ?, ?)";
 
+					try
+					{
+						PreparedStatement stmt = db.prepareStatement(query);
+						stmt.setInt(1, exercised);
+						stmt.setInt(2, alcohol);
+						stmt.setInt(3, sugar);
+						stmt.setString(4, today);
+						stmt.execute();
+
+						System.out.println("Daily result successfully logged");
+					}
+					catch(SQLException e)
+					{
+						System.out.println("Problem inserting data: " + e);
+					}
 				}
 				else
 				{
