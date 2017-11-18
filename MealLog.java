@@ -68,7 +68,8 @@ public class MealLog
 			"3. View menu",
 			"4. Log a meal",
 			"5. View meals",
-			"6. Log daily results"
+			"6. Log daily results",
+			"7. View daily stats"
 		};
 
 		for(int i = 0; i < menu.length; i++)
@@ -241,6 +242,11 @@ public class MealLog
 		}
 	}
 
+	private void viewDaily()
+	{
+		//Start off pulling monthly results
+	}
+
 	public static void main(String[] args)
 	{
 		MealLog m = new MealLog();
@@ -282,6 +288,9 @@ public class MealLog
 							break;
 						case 6:
 							m.logDaily();
+							break;
+						case 7:
+							m.viewDaily();
 							break;
 						default:
 							System.out.println("Not a valid entry");
