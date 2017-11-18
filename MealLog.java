@@ -251,7 +251,7 @@ public class MealLog
 
 		try
 		{
-			System.out.println("Daily results since: " + dateParam);
+			System.out.println("Daily results since: " + dateParam + "\n");
 
 			rs = stmt.executeQuery(query);
 			int count = 0;
@@ -273,7 +273,7 @@ public class MealLog
 					alFail++;
 				else
 					alPass++;
-				
+
 				if(rs.getInt("sugar") == 1)
 					suFail++;
 				else
@@ -282,8 +282,16 @@ public class MealLog
 				count++;
 			}
 
+			//Show results
+			System.out.println("Exercised: " + exPass);
+			System.out.println("Lazy:" + exFail);
+			System.out.println("Drank: " + alFail);
+			System.out.println("Sober: " + alPass);
+			System.out.println("Sugar Free: " + suPass);
+			System.out.println("Sugar Fails: " + suFail);
+
 			if(count > 0)
-				System.out.println("\n" + count + " results found");
+				System.out.println("\n" + count + " days logged");
 			else
 				System.out.println("No results");
 
