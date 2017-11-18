@@ -255,9 +255,30 @@ public class MealLog
 
 			rs = stmt.executeQuery(query);
 			int count = 0;
+			int exPass = 0;
+			int exFail = 0;
+			int alPass = 0;
+			int alFail = 0;
+			int suPass = 0;
+			int suFail = 0;
 
 			while(rs.next())
 			{
+				if(rs.getInt("exercised") == 1)
+					exPass++;
+				else
+					exFail++;
+
+				if(rs.getInt("alcohol") == 1)
+					alFail++;
+				else
+					alPass++;
+				
+				if(rs.getInt("sugar") == 1)
+					suFail++;
+				else
+					suPass++;
+
 				count++;
 			}
 
@@ -265,6 +286,8 @@ public class MealLog
 				System.out.println("\n" + count + " results found");
 			else
 				System.out.println("No results");
+
+			rs.close();
 		}
 		catch(SQLException e)
 		{
