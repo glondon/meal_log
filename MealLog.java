@@ -68,7 +68,8 @@ public class MealLog
 			"3. View menu",
 			"4. Log a meal",
 			"5. View meals",
-			"6. Log daily results"
+			"6. Log daily results",
+			"7. View daily stats"
 		};
 
 		for(int i = 0; i < menu.length; i++)
@@ -241,6 +242,67 @@ public class MealLog
 		}
 	}
 
+	private void viewDaily()
+	{
+		//Start off pulling monthly results
+		LocalDate today = LocalDate.now();
+		String dateParam = today.withDayOfMonth(1).toString();
+		String query = "SELECT * FROM daily WHERE date_affected >= " + dateParam;
+
+		try
+		{
+			System.out.println("Daily results since: " + dateParam + "\n");
+
+			rs = stmt.executeQuery(query);
+			int count = 0;
+			int exPass = 0;
+			int exFail = 0;
+			int alPass = 0;
+			int alFail = 0;
+			int suPass = 0;
+			int suFail = 0;
+
+			while(rs.next())
+			{
+				if(rs.getInt("exercised") == 1)
+					exPass++;
+				else
+					exFail++;
+
+				if(rs.getInt("alcohol") == 1)
+					alFail++;
+				else
+					alPass++;
+
+				if(rs.getInt("sugar") == 1)
+					suFail++;
+				else
+					suPass++;
+
+				count++;
+			}
+
+			//Show results
+			System.out.println("Exercised: " + exPass);
+			System.out.println("Lazy:" + exFail);
+			System.out.println("Drank: " + alFail);
+			System.out.println("Sober: " + alPass);
+			System.out.println("Sugar Free: " + suPass);
+			System.out.println("Sugar Fails: " + suFail);
+
+			if(count > 0)
+				System.out.println("\n" + count + " days logged");
+			else
+				System.out.println("No results");
+
+			rs.close();
+		}
+		catch(SQLException e)
+		{
+			System.out.println("Problem accessing data: " + e);
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		MealLog m = new MealLog();
@@ -282,6 +344,9 @@ public class MealLog
 							break;
 						case 6:
 							m.logDaily();
+							break;
+						case 7:
+							m.viewDaily();
 							break;
 						default:
 							System.out.println("Not a valid entry");
