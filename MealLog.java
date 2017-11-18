@@ -245,6 +245,31 @@ public class MealLog
 	private void viewDaily()
 	{
 		//Start off pulling monthly results
+		LocalDate today = LocalDate.now();
+		String dateParam = today.withDayOfMonth(1).toString();
+		String query = "SELECT * FROM daily WHERE date_affected >= " + dateParam;
+
+		try
+		{
+			System.out.println("Daily results since: " + dateParam);
+
+			rs = stmt.executeQuery(query);
+			int count = 0;
+
+			while(rs.next())
+			{
+				count++;
+			}
+
+			if(count > 0)
+				System.out.println("\n" + count + " results found");
+			else
+				System.out.println("No results");
+		}
+		catch(SQLException e)
+		{
+			System.out.println("Problem accessing data: " + e);
+		}
 	}
 
 	public static void main(String[] args)
