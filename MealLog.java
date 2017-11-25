@@ -255,6 +255,8 @@ public class MealLog
 
 			rs = stmt.executeQuery(query);
 			int count = 0;
+			int mePass = 0;
+			int meFail = 0;
 			int exPass = 0;
 			int exFail = 0;
 			int alPass = 0;
@@ -264,6 +266,11 @@ public class MealLog
 
 			while(rs.next())
 			{
+				if(rs.getInt("meals_passed") == 1)
+					mePass++;
+				else
+					meFail++;
+
 				if(rs.getInt("exercised") == 1)
 					exPass++;
 				else
@@ -283,6 +290,8 @@ public class MealLog
 			}
 
 			//Show results
+			System.out.println("Ate Healthly: " + mePass);
+			System.out.println("Ate Poorly: " + meFail);
 			System.out.println("Exercised: " + exPass);
 			System.out.println("Lazy:" + exFail);
 			System.out.println("Drank: " + alFail);
