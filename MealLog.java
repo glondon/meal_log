@@ -16,6 +16,7 @@ public class MealLog
 
 	private static final String[] MEALS = {"breakfast", "lunch", "dinner"};
 	private static final String[] RESULT = {"win", "tie", "loss"};
+	private static final String[] SIZE = {"pass", "fail"};
 
 	public MealLog()
 	{
@@ -78,41 +79,46 @@ public class MealLog
 
 	private void logMeal()
 	{
-		System.out.println("\nEnter meal period, (win/tie/loss), & date (separated by commas):\n");
+		System.out.println("\nEnter meal period, (win/tie/loss), size (pass/fail), & date (',' separated):\n");
 
 		Scanner mealRead = new Scanner(System.in);
 		String mealValue = mealRead.nextLine();
 
 		String[] ent = mealValue.split(",");
 
-		if(ent.length == 3){
+		if(ent.length == 4){
 			String meal = ent[0].trim();
 			String pass = ent[1].trim();
-			String date = ent[2].trim();
+			String size = ent[2].trim();
+			String date = ent[3].trim();
 
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date pDate;
 			boolean mealValidated = true;
 			boolean passValidated = true;
+			boolean sizeValidated = true;
 
 			if(!Arrays.asList(MEALS).contains(meal.toLowerCase()))
 				mealValidated = false;
+			if(!Arrays.asList(SIZE).contains(size.toLowerCase()))
+				sizeValidated = false;
 			if(!Arrays.asList(RESULT).contains(pass.toLowerCase()))
 				passValidated = false;
 
-			if(mealValidated && passValidated)
+			if(mealValidated && passValidated && sizeValidated)
 			{
 				try{
 					pDate = df.parse(date);
 					String saveDate = df.format(pDate);
 
 					try{
-						String query = "INSERT INTO meals (time, result, date_consumed) VALUES (?, ?, ?)";
+						String query = "INSERT INTO meals (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
 
 						PreparedStatement stmt = db.prepareStatement(query);
 						stmt.setString(1, meal);
 						stmt.setString(2, pass);
-						stmt.setString(3, saveDate);
+						stmt.setString(3, size);
+						stmt.setString(4, saveDate);
 						stmt.execute();
 
 						System.out.println("Meal successfully logged");
@@ -129,6 +135,8 @@ public class MealLog
 			{
 				if(!mealValidated)
 					System.out.println(meal + " is not a valid meal period");
+				if(!sizeValidated)
+					System.out.println(size + " is not a valid pass/fail value");
 				if(!passValidated)
 					System.out.println(pass + " is not a valid pass/fail option");
 			}
@@ -222,10 +230,10 @@ public class MealLog
 			while(rs.next()){
 
 				if(count == 0)
-					System.out.printf("%-3s %-8s %-9s %-7s %-6s %n", "ID", "MEAL", "RESULT", "SUGAR", "DATE");
+					System.out.printf("%-3s %-8s %-7s %-5s %-5s %n", "ID", "MEAL", "RESULT", "SIZE", "DATE");
 
-				System.out.printf("%-2d  %-8s  %-8s  %-6s %tF %n", 
-					rs.getInt("id"), rs.getString("time"), rs.getString("result"), rs.getString("sugar"), rs.getDate("date_consumed"));
+				System.out.printf("%-3d %-8s %-7s %-5s %tF %n", 
+					rs.getInt("id"), rs.getString("time"), rs.getString("result"), rs.getString("meal_size"), rs.getDate("date_consumed"));
 
 				count++;
 			}
@@ -255,6 +263,8 @@ public class MealLog
 
 			rs = stmt.executeQuery(query);
 			int count = 0;
+			int mePass = 0;
+			int meFail = 0;
 			int exPass = 0;
 			int exFail = 0;
 			int alPass = 0;
@@ -264,6 +274,11 @@ public class MealLog
 
 			while(rs.next())
 			{
+				if(rs.getInt("meals_passed") == 1)
+					mePass++;
+				else
+					meFail++;
+
 				if(rs.getInt("exercised") == 1)
 					exPass++;
 				else
@@ -283,6 +298,8 @@ public class MealLog
 			}
 
 			//Show results
+			System.out.println("Ate Healthly: " + mePass);
+			System.out.println("Ate Poorly: " + meFail);
 			System.out.println("Exercised: " + exPass);
 			System.out.println("Lazy:" + exFail);
 			System.out.println("Drank: " + alFail);
