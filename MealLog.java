@@ -334,6 +334,47 @@ public class MealLog
 		}
 	}
 
+	private void checkLastWhys()
+	{
+		String today = this.formattedDate();
+		String query = "SELECT viewed_whys FROM actions ORDER BY viewed_whys DESC LIMIT 1";
+		int i = 0;
+		String lastViewed = "";
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+		try
+		{
+			rs = stmt.executeQuery(query);
+			while(rs.next()){
+				lastViewed = rs.getString("viewed_whys");
+				i++;
+			}
+
+			if(i == 1 && lastViewed != "")
+			{
+				try
+				{
+					Date date1 = df.parse(today);
+					Date date2 = df.parse(lastViewed);
+					long diff = date1.getTime() - date2.getTime();
+					float result = (diff / (1000 * 60 * 60 * 24));
+
+					if(result >= 7)
+						System.out.println("\nWARNING: It's been " + result + " days since WHY's viewed!\n");
+
+				}
+				catch(ParseException e){
+					e.printStackTrace();
+				}
+			}
+			else
+				System.out.println("Something wrong with checkLastWhys() query");
+		}
+		catch(SQLException e){
+			System.out.println("Problem access data: " + e);
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		MealLog m = new MealLog();
@@ -342,6 +383,7 @@ public class MealLog
 		boolean stop = false;
 
 		m.menu();
+		m.checkLastWhys();
 
 		while(stop == false)
 		{
