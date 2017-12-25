@@ -37,6 +37,8 @@ public class MealLog
 	{
 		String query = "SELECT why FROM whys ORDER BY why";
 		System.out.println("Reasons to lose weight\n");
+		String today = this.formattedDate();
+		String actionQuery = "INSERT INTO actions (viewed_whys) VALUES (?)";
 		
 		int counter = 1;
 
@@ -48,10 +50,14 @@ public class MealLog
 				System.out.println(counter + ". " + rs.getString(1));
 				System.out.println("-------------------------------");
 				counter++;
-			}
-				
+			}	
 
 			rs.close();
+
+			//insert last viewed into action table
+			PreparedStatement stmt = db.prepareStatement(actionQuery);
+			stmt.setString(1, today);
+			stmt.execute();
 
 		}  
 		catch(SQLException e)
@@ -176,9 +182,8 @@ public class MealLog
 
 				if(exPass && alPass && suPass)
 				{
-					Date today = new Date();
-					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-					String saveDate = df.format(today);
+					
+					String saveDate = this.formattedDate();
 					String query = "INSERT INTO daily (exercised, alcohol, sugar, date_affected) VALUES (?, ?, ?, ?)";
 
 					try
@@ -211,6 +216,15 @@ public class MealLog
 		}
 		else
 			System.out.println("Only 3 values can be entered\n");
+	}
+
+	private String formattedDate()
+	{
+		//TODO will allow DateTimes to be passed in - for now return today's date only
+		Date today = new Date();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+		return df.format(today);
 	}
 
 	private void viewMeals()
