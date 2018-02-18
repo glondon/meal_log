@@ -39,7 +39,7 @@ public class MealLog
 
 	private void getWhys()
 	{
-		String query = "SELECT why FROM whys ORDER BY why";
+		String query = "SELECT why FROM " + WHYS_TBL + " ORDER BY why";
 		System.out.println("Reasons to lose weight\n");
 		String today = this.formattedDate();
 		String actionQuery = "INSERT INTO actions (viewed_whys) VALUES (?)";
@@ -122,7 +122,7 @@ public class MealLog
 					String saveDate = df.format(pDate);
 
 					try{
-						String query = "INSERT INTO meals (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
+						String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
 
 						PreparedStatement stmt = db.prepareStatement(query);
 						stmt.setString(1, meal);
@@ -188,7 +188,7 @@ public class MealLog
 				{
 					
 					String saveDate = this.formattedDate();
-					String query = "INSERT INTO daily (exercised, alcohol, sugar, date_affected) VALUES (?, ?, ?, ?)";
+					String query = "INSERT INTO " + DAILY_TBL + " (exercised, alcohol, sugar, date_affected) VALUES (?, ?, ?, ?)";
 
 					try
 					{
@@ -236,7 +236,7 @@ public class MealLog
 		//TODO set up for today, then a specific date
 		LocalDate today = LocalDate.now();
 		String dateParam = today.withDayOfMonth(1).toString();
-		String query = "SELECT * FROM meals WHERE date_consumed >= '" + dateParam + "' ORDER BY date_consumed DESC";
+		String query = "SELECT * FROM " + MEALS_TBL + " WHERE date_consumed >= '" + dateParam + "' ORDER BY date_consumed DESC";
 
 		System.out.println("Meals eaten since " + dateParam);
 
@@ -273,7 +273,7 @@ public class MealLog
 		//Start off pulling monthly results
 		LocalDate today = LocalDate.now();
 		String dateParam = today.withDayOfMonth(1).toString();
-		String query = "SELECT * FROM daily WHERE date_affected >= " + dateParam;
+		String query = "SELECT * FROM " + DAILY_TBL + " WHERE date_affected >= " + dateParam;
 
 		try
 		{
@@ -341,7 +341,7 @@ public class MealLog
 	private void checkLastWhys()
 	{
 		String today = this.formattedDate();
-		String query = "SELECT viewed_whys FROM actions ORDER BY viewed_whys DESC LIMIT 1";
+		String query = "SELECT viewed_whys FROM " + ACTIONS_TBL + " ORDER BY viewed_whys DESC LIMIT 1";
 		int i = 0;
 		String lastViewed = "";
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
