@@ -273,7 +273,7 @@ public class MealLog
 		//Start off pulling monthly results
 		LocalDate today = LocalDate.now();
 		String dateParam = today.withDayOfMonth(1).toString();
-		String query = "SELECT * FROM " + DAILY_TBL + " WHERE date_affected >= " + dateParam;
+		String query = "SELECT * FROM " + DAILY_TBL + " WHERE date_affected >= '" + dateParam + "'";
 
 		try
 		{
