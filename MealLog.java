@@ -17,6 +17,10 @@ public class MealLog
 	private static final String[] MEALS = {"breakfast", "lunch", "dinner"};
 	private static final String[] RESULT = {"win", "tie", "loss"};
 	private static final String[] SIZE = {"pass", "fail"};
+	private static final String ACTIONS_TBL = "actions";
+	private static final String DAILY_TBL = "daily";
+	private static final String MEALS_TBL = "meals";
+	private static final String WHYS_TBL = "whys";
 
 	public MealLog()
 	{
