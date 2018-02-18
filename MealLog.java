@@ -315,18 +315,20 @@ public class MealLog
 				count++;
 			}
 
-			//Show results
-			System.out.println("Ate Healthly: " + mePass);
-			System.out.println("Ate Poorly: " + meFail);
-			System.out.println("Exercised: " + exPass);
-			System.out.println("Lazy:" + exFail);
-			System.out.println("Drank: " + alFail);
-			System.out.println("Sober: " + alPass);
-			System.out.println("Sugar Free: " + suPass);
-			System.out.println("Sugar Fails: " + suFail);
-
+			
 			if(count > 0)
+			{
+				//Show results
+				System.out.println("Ate Healthly: " + mePass);
+				System.out.println("Ate Poorly: " + meFail);
+				System.out.println("Exercised: " + exPass);
+				System.out.println("Lazy:" + exFail);
+				System.out.println("Drank: " + alFail);
+				System.out.println("Sober: " + alPass);
+				System.out.println("Sugar Free: " + suPass);
+				System.out.println("Sugar Fails: " + suFail);
 				System.out.println("\n" + count + " days logged");
+			}
 			else
 				System.out.println("No results");
 
