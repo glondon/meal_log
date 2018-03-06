@@ -40,11 +40,12 @@ public class MealLog
 	private void getWhys()
 	{
 		String query = "SELECT why FROM " + WHYS_TBL + " ORDER BY why";
-		System.out.println("Reasons to lose weight\n");
+		System.out.println("Reasons to lose weight (ENTER to continue 'q' to quit)\n");
 		String today = this.formattedDate();
 		String actionQuery = "INSERT INTO actions (viewed_whys) VALUES (?)";
 		
 		int counter = 1;
+		String next;
 
 		try
 		{
@@ -54,6 +55,9 @@ public class MealLog
 				System.out.println(counter + ". " + rs.getString(1));
 				System.out.println("-------------------------------");
 				counter++;
+				next = System.console().readLine();
+				if("q".equals(next))
+					break;
 			}	
 
 			rs.close();
