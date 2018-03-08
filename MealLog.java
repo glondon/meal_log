@@ -53,7 +53,6 @@ public class MealLog
 			while(rs.next())
 			{
 				System.out.println(counter + ". " + rs.getString(1));
-				System.out.println("-------------------------------");
 				counter++;
 				next = System.console().readLine();
 				if("q".equals(next))
