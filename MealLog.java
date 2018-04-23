@@ -396,7 +396,7 @@ public class MealLog
 
 		while(stop == false)
 		{
-			System.out.println("\nSelect an option\n");
+			System.out.println("\nSelect an option (3 for menu)\n");
 			String value = read.next();
 
 			if(value != "")
