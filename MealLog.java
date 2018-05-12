@@ -106,24 +106,35 @@ public class MealLog
 			Date pd;
 			try{
 				int iw = Integer.parseInt(w);
-				pass = false;
+				if(iw > 250 || iw < 0){
+					System.out.println(iw + " is an invalid weight");
+					pass = false;
+				}
+
+				try{
+					pd = df.parse(d);
+					String sd = df.format(pd);
+					if(pass){
+						try{
+							String q = "INSERT INTO " + WEIGHT_TBL + " (pounds, date_w) VALUES (?, ?)";
+							PreparedStatement stmt = db.prepareStatement(q);
+								stmt.setInt(1, iw);
+								stmt.setString(2, sd);
+								stmt.execute();
+								System.out.println("weight successfully logged");
+						}
+						catch(SQLException ex){
+							System.out.println("DB insert error: " + ex);
+						}
+					}
+				}
+				catch(ParseException ex){
+					System.out.println(d + " not a valid date: " + ex);
+				}
 			}
 			catch(NumberFormatException ex){
-				System.out.println(w + " not a valid weight: " + e);
+				System.out.println(w + " not a valid weight: " + ex);
 			}	
-			try{
-				pd = df.parse(d);
-				String sd = df.format(pd);
-			}
-			catch(ParseException ex){
-				System.out.println(d + " not a valid date: " + e);
-				pass = false;
-			}
-			if(pass){
-
-			}
-			
-			
 		}
 		else
 			System.out.println("\nOnly 2 values can be entered (weight and date)\n");
