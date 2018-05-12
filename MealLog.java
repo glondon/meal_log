@@ -21,6 +21,7 @@ public class MealLog
 	private static final String DAILY_TBL = "daily";
 	private static final String MEALS_TBL = "meals";
 	private static final String WHYS_TBL = "whys";
+	private static final String WEIGHT_TBL = "weight";
 
 	public MealLog()
 	{
@@ -83,11 +84,17 @@ public class MealLog
 			"4. Log a meal",
 			"5. View meals",
 			"6. Log daily results",
-			"7. View daily stats"
+			"7. View daily stats",
+			"8. Log weight"
 		};
 
 		for(int i = 0; i < menu.length; i++)
 			System.out.println(menu[i]);
+	}
+
+	private void logWeight()
+	{
+
 	}
 
 	private void logMeal()
@@ -429,6 +436,9 @@ public class MealLog
 							break;
 						case 7:
 							m.viewDaily();
+							break;
+						case 8:
+							m.logWeight();
 							break;
 						default:
 							System.out.println("Not a valid entry");
