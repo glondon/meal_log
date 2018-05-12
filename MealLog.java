@@ -94,7 +94,40 @@ public class MealLog
 
 	private void logWeight()
 	{
-
+		System.out.println("\nEnter weight and date (comma separated):\n");
+		Scanner r = new Scanner(System.in);
+		String vals = r.nextLine();
+		String e = vals.split(",");
+		if(e.length == 2){
+			String w = e[0].trim();
+			String d = e[1].trim();
+			boolean pass = true;
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date pd;
+			try{
+				int iw = Integer.parseInt(w);
+				pass = false;
+			}
+			catch(NumberFormatException e){
+				System.out.println(w + " not a valid weight: " + e);
+			}	
+			try{
+				pd = df.parse(d);
+				String sd = df.format(pd);
+			}
+			catch(ParseException e){
+				System.out.println(d + " not a valid date: " + e);
+				pass = false;
+			}
+			if(pass){
+				
+			}
+			
+			
+		}
+		else
+			System.out.println("\nOnly 2 values can be entered (weight and date)\n");
+		
 	}
 
 	private void logMeal()
