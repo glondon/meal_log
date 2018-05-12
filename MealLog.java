@@ -97,7 +97,7 @@ public class MealLog
 		System.out.println("\nEnter weight and date (comma separated):\n");
 		Scanner r = new Scanner(System.in);
 		String vals = r.nextLine();
-		String e = vals.split(",");
+		String[] e = vals.split(",");
 		if(e.length == 2){
 			String w = e[0].trim();
 			String d = e[1].trim();
@@ -108,19 +108,19 @@ public class MealLog
 				int iw = Integer.parseInt(w);
 				pass = false;
 			}
-			catch(NumberFormatException e){
+			catch(NumberFormatException ex){
 				System.out.println(w + " not a valid weight: " + e);
 			}	
 			try{
 				pd = df.parse(d);
 				String sd = df.format(pd);
 			}
-			catch(ParseException e){
+			catch(ParseException ex){
 				System.out.println(d + " not a valid date: " + e);
 				pass = false;
 			}
 			if(pass){
-				
+
 			}
 			
 			
