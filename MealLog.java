@@ -21,6 +21,7 @@ public class MealLog
 	private static final String DAILY_TBL = "daily";
 	private static final String MEALS_TBL = "meals";
 	private static final String WHYS_TBL = "whys";
+	private static final String WEIGHT_TBL = "weight";
 
 	public MealLog()
 	{
@@ -83,11 +84,61 @@ public class MealLog
 			"4. Log a meal",
 			"5. View meals",
 			"6. Log daily results",
-			"7. View daily stats"
+			"7. View daily stats",
+			"8. Log weight"
 		};
 
 		for(int i = 0; i < menu.length; i++)
 			System.out.println(menu[i]);
+	}
+
+	private void logWeight()
+	{
+		System.out.println("\nEnter weight and date (comma separated):\n");
+		Scanner r = new Scanner(System.in);
+		String vals = r.nextLine();
+		String[] e = vals.split(",");
+		if(e.length == 2){
+			String w = e[0].trim();
+			String d = e[1].trim();
+			boolean pass = true;
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date pd;
+			try{
+				int iw = Integer.parseInt(w);
+				if(iw > 250 || iw < 0){
+					System.out.println(iw + " is an invalid weight");
+					pass = false;
+				}
+
+				try{
+					pd = df.parse(d);
+					String sd = df.format(pd);
+					if(pass){
+						try{
+							String q = "INSERT INTO " + WEIGHT_TBL + " (pounds, date_w) VALUES (?, ?)";
+							PreparedStatement stmt = db.prepareStatement(q);
+								stmt.setInt(1, iw);
+								stmt.setString(2, sd);
+								stmt.execute();
+								System.out.println("weight successfully logged");
+						}
+						catch(SQLException ex){
+							System.out.println("DB insert error: " + ex);
+						}
+					}
+				}
+				catch(ParseException ex){
+					System.out.println(d + " not a valid date: " + ex);
+				}
+			}
+			catch(NumberFormatException ex){
+				System.out.println(w + " not a valid weight: " + ex);
+			}	
+		}
+		else
+			System.out.println("\nOnly 2 values can be entered (weight and date)\n");
+		
 	}
 
 	private void logMeal()
@@ -429,6 +480,9 @@ public class MealLog
 							break;
 						case 7:
 							m.viewDaily();
+							break;
+						case 8:
+							m.logWeight();
 							break;
 						default:
 							System.out.println("Not a valid entry");
