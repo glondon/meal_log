@@ -233,15 +233,14 @@ public class MealLog
 
 		if(ent.length == 3)
 		{
-			try
-			{
-				String ex = ent[0].trim();
-				String al = ent[1].trim();
-				String su = ent[2].trim();
+			String ex = ent[0].trim();
+			String al = ent[1].trim();
+			String su = ent[2].trim();
 
-				int exercised = Integer.parseInt(ex);
-				int alcohol = Integer.parseInt(al);
-				int sugar = Integer.parseInt(su);
+			int exercised = validateInt(ex);
+			int alcohol = validateInt(al);
+			int sugar = validateInt(su);
+			if(exercised == -1 || alcohol == -1 || sugar == -1){
 				boolean exPass = true;
 				boolean alPass = true;
 				boolean suPass = true;
@@ -279,10 +278,8 @@ public class MealLog
 					if(!suPass) System.out.println(sugar + " is not an allowed sugar value");
 				}
 			}
-			catch(NumberFormatException e)
-			{
-				System.out.println("Invalid integer entered: " + e);
-			}
+			else
+				System.out.println("Invalid integer entered");
 		}
 		else
 			System.out.println("Only 3 values can be entered\n");
