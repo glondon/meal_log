@@ -104,6 +104,20 @@ public class MealLog
 		}
 	}
 
+	private static String validateDate(String s)
+	{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		Date d;
+		String sd = "";
+		try{
+			d = df.parse(s);
+			return d.toString();
+		}
+		catch(ParseException e){
+			return sd;
+		}
+	}
+
 	private void logWeight()
 	{
 		System.out.println("\nEnter weight and date (comma separated):\n");
@@ -114,8 +128,6 @@ public class MealLog
 			String w = e[0].trim();
 			String d = e[1].trim();
 			boolean pass = true;
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date pd;
 			int iw = validateInt(w);
 			if(iw != -1){
 				if(iw > 250 || iw < 0){
@@ -123,9 +135,8 @@ public class MealLog
 					pass = false;
 				}
 
-				try{
-					pd = df.parse(d);
-					String sd = df.format(pd);
+				String sd = validateDate(d);
+				if(sd != ""){
 					if(pass){
 						try{
 							String q = "INSERT INTO " + WEIGHT_TBL + " (pounds, date_w) VALUES (?, ?)";
@@ -140,9 +151,8 @@ public class MealLog
 						}
 					}
 				}
-				catch(ParseException ex){
-					System.out.println(d + " not a valid date: " + ex);
-				}
+				else
+					System.out.println(d + " not a valid date");
 			}
 			else
 				System.out.println(w + " not a valid weight");
@@ -167,9 +177,6 @@ public class MealLog
 			String pass = ent[1].trim();
 			String size = ent[2].trim();
 			String date = ent[3].trim();
-
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date pDate;
 			boolean mealValidated = true;
 			boolean passValidated = true;
 			boolean sizeValidated = true;
@@ -183,10 +190,8 @@ public class MealLog
 
 			if(mealValidated && passValidated && sizeValidated)
 			{
-				try{
-					pDate = df.parse(date);
-					String saveDate = df.format(pDate);
-
+				String sd = validateDate(date);
+				if(sd != ""){
 					try{
 						String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
 
@@ -194,7 +199,7 @@ public class MealLog
 						stmt.setString(1, meal);
 						stmt.setString(2, pass);
 						stmt.setString(3, size);
-						stmt.setString(4, saveDate);
+						stmt.setString(4, sd);
 						stmt.execute();
 
 						System.out.println("Meal successfully logged");
@@ -203,9 +208,8 @@ public class MealLog
 						System.out.println("DB insert error: " + e);
 					}
 				}
-				catch(ParseException e){
-					System.out.println("Date validation failed: " + e);
-				}	
+				else
+					System.out.println("Date validation failed");
 			}
 			else
 			{
