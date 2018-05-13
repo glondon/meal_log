@@ -407,34 +407,46 @@ public class MealLog
 		}
 	}
 
+	private String[] runQuery(String q)
+	{
+		String[] r;
+		int i = 0;
+		try{
+			rs = stmt.executeQuery(q);
+			while(rs.next()){
+				r[i] = rs.getString(1); //TODO fix
+				i++;
+			}
+				
+
+			return r;
+		}
+		catch(SQLException e){
+			return r;
+		}
+	}
+
 	private void checkLastWeight()
 	{
 		String t = this.formattedDate();
 		String q = "SELECT date_w FROM " + WEIGHT_TBL + " ORDER By date_w DESC LIMIT 1";
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		String last = "";
-		try{
-			rs = stmt.executeQuery(q);
-			while(rs.next())
-				last = rs.getString("date_w");
-			
-			if(last != ""){
-				try{
-					Date d1 = df.parse(t);
-					Date d2 = df.parse(last);
-					long diff = d1.getTime() - d2.getTime();
-					float r = (diff / (1000 * 60 * 60 * 24));
-					if(r >= 7)
-						System.out.println("\nWARNING: It's been " + r + " days since last weight entered!\n");
-				}
-				catch(ParseException e){
-					e.printStackTrace();
-				}
+		String[] last = this.runQuery(q);
+		if(last.length > 0){
+			try{
+				Date d1 = df.parse(t);
+				Date d2 = df.parse(last[0]); //TOD fix
+				long diff = d1.getTime() - d2.getTime();
+				float r = (diff / (1000 * 60 * 60 * 24));
+				if(r >= 1)
+					System.out.println("\nWARNING: It's been " + r + " days since last weight entered!\n");
+			}
+			catch(ParseException e){
+				e.printStackTrace();
 			}
 		}
-		catch(SQLException e){
-			System.out.println("Problem accessing data: " + e);
-		}
+		else
+			System.out.println("No results");
 	}
 
 	private void checkLastWhys()
