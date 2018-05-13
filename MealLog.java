@@ -104,6 +104,19 @@ public class MealLog
 		}
 	}
 
+	private static Date validateDate(String s)
+	{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		Date d = df.parse("0000-00-00");
+		try{
+			d = df.parse(s);
+			return d;
+		}
+		catch(ParseException e){
+			return d;
+		}
+	}
+
 	private void logWeight()
 	{
 		System.out.println("\nEnter weight and date (comma separated):\n");
@@ -114,14 +127,14 @@ public class MealLog
 			String w = e[0].trim();
 			String d = e[1].trim();
 			boolean pass = true;
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date pd;
 			int iw = validateInt(w);
 			if(iw != -1){
 				if(iw > 250 || iw < 0){
 					System.out.println(iw + " is an invalid weight");
 					pass = false;
 				}
+
+				Date pd = validateDate(d);
 
 				try{
 					pd = df.parse(d);
