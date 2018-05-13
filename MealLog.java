@@ -301,7 +301,26 @@ public class MealLog
 
 	private void viewWeightLog()
 	{
+		LocalDate t = LocalDate.now();
+		String m = t.withDayOfMonth(1).toString();
+		String q = "SELECT * FROM " + WEIGHT_TBL + " WHERE date_w >= '" + m + "' ORDER BY date_w DESC";
+		System.out.println("Logged weights for month: " + m + "\n");
+		try{
+			rs = stmt.executeQuery(q);
+			int c = 0;
+			while(rs.next()){
+				if(c == 0)
+					System.out.printf("%-3s %-8s", "WEIGHT", "DATE\n");
 
+				System.out.printf("%-3s %-8s", rs.getInt("pounds"), rs.getDate("date_w") + "\n");
+				c++;
+			}
+
+			System.out.println("\nTotal logged: " + c);
+		}
+		catch(SQLException e){
+			System.out.println("Problem accessing data: " + e);
+		}
 	}
 
 	private void viewMeals()
