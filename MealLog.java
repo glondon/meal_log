@@ -177,9 +177,6 @@ public class MealLog
 			String pass = ent[1].trim();
 			String size = ent[2].trim();
 			String date = ent[3].trim();
-
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date pDate;
 			boolean mealValidated = true;
 			boolean passValidated = true;
 			boolean sizeValidated = true;
@@ -193,10 +190,8 @@ public class MealLog
 
 			if(mealValidated && passValidated && sizeValidated)
 			{
-				try{
-					pDate = df.parse(date);
-					String saveDate = df.format(pDate);
-
+				String sd = validateDate(date);
+				if(sd != ""){
 					try{
 						String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
 
@@ -204,7 +199,7 @@ public class MealLog
 						stmt.setString(1, meal);
 						stmt.setString(2, pass);
 						stmt.setString(3, size);
-						stmt.setString(4, saveDate);
+						stmt.setString(4, sd);
 						stmt.execute();
 
 						System.out.println("Meal successfully logged");
@@ -213,9 +208,8 @@ public class MealLog
 						System.out.println("DB insert error: " + e);
 					}
 				}
-				catch(ParseException e){
-					System.out.println("Date validation failed: " + e);
-				}	
+				else
+					System.out.println("Date validation failed");
 			}
 			else
 			{
