@@ -104,16 +104,17 @@ public class MealLog
 		}
 	}
 
-	private static Date validateDate(String s)
+	private static String validateDate(String s)
 	{
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		Date d = df.parse("0000-00-00");
+		Date d;
+		String sd = "";
 		try{
 			d = df.parse(s);
-			return d;
+			return d.toString();
 		}
 		catch(ParseException e){
-			return d;
+			return sd;
 		}
 	}
 
@@ -134,11 +135,8 @@ public class MealLog
 					pass = false;
 				}
 
-				Date pd = validateDate(d);
-
-				try{
-					pd = df.parse(d);
-					String sd = df.format(pd);
+				String sd = validateDate(d);
+				if(sd != ""){
 					if(pass){
 						try{
 							String q = "INSERT INTO " + WEIGHT_TBL + " (pounds, date_w) VALUES (?, ?)";
@@ -153,9 +151,8 @@ public class MealLog
 						}
 					}
 				}
-				catch(ParseException ex){
-					System.out.println(d + " not a valid date: " + ex);
-				}
+				else
+					System.out.println(d + " not a valid date");
 			}
 			else
 				System.out.println(w + " not a valid weight");
