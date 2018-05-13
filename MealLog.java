@@ -461,11 +461,8 @@ public class MealLog
 
 			if(value != "")
 			{
-				try
-				{
-					
-					int entered = Integer.parseInt(value);
-
+				int entered = validateInt(value);
+				if(entered != -1){
 					switch(entered)
 					{
 						case 1:
@@ -498,10 +495,8 @@ public class MealLog
 							break;
 					}
 				}
-				catch(NumberFormatException e)
-				{
-					System.out.println(value + " not a valid integer: " + e);
-				}
+				else
+					System.out.println(value + " not a valid integer");
 			}
 		}
 		
