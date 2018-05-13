@@ -92,6 +92,18 @@ public class MealLog
 			System.out.println(menu[i]);
 	}
 
+	private static int validateInt(String s)
+	{
+		int n = -1;
+		try{
+			n = Integer.parseInt(s);
+			return n;
+		}
+		catch(NumberFormatException e){
+			return n;
+		}
+	}
+
 	private void logWeight()
 	{
 		System.out.println("\nEnter weight and date (comma separated):\n");
@@ -104,8 +116,8 @@ public class MealLog
 			boolean pass = true;
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date pd;
-			try{
-				int iw = Integer.parseInt(w);
+			int iw = validateInt(w);
+			if(iw != -1){
 				if(iw > 250 || iw < 0){
 					System.out.println(iw + " is an invalid weight");
 					pass = false;
@@ -132,9 +144,9 @@ public class MealLog
 					System.out.println(d + " not a valid date: " + ex);
 				}
 			}
-			catch(NumberFormatException ex){
-				System.out.println(w + " not a valid weight: " + ex);
-			}	
+			else
+				System.out.println(w + " not a valid weight");
+			
 		}
 		else
 			System.out.println("\nOnly 2 values can be entered (weight and date)\n");
