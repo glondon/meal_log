@@ -240,7 +240,7 @@ public class MealLog
 			int exercised = validateInt(ex);
 			int alcohol = validateInt(al);
 			int sugar = validateInt(su);
-			if(exercised == -1 || alcohol == -1 || sugar == -1){
+			if(exercised != -1 && alcohol != -1 && sugar != -1){
 				boolean exPass = true;
 				boolean alPass = true;
 				boolean suPass = true;
