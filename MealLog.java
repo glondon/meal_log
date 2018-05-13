@@ -92,6 +92,18 @@ public class MealLog
 			System.out.println(menu[i]);
 	}
 
+	private static int validateInt(String s)
+	{
+		int n = -1;
+		try{
+			n = Integer.parseInt(s);
+			return n;
+		}
+		catch(NumberFormatException e){
+			return n;
+		}
+	}
+
 	private void logWeight()
 	{
 		System.out.println("\nEnter weight and date (comma separated):\n");
@@ -104,8 +116,8 @@ public class MealLog
 			boolean pass = true;
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			Date pd;
-			try{
-				int iw = Integer.parseInt(w);
+			int iw = validateInt(w);
+			if(iw != -1){
 				if(iw > 250 || iw < 0){
 					System.out.println(iw + " is an invalid weight");
 					pass = false;
@@ -132,9 +144,9 @@ public class MealLog
 					System.out.println(d + " not a valid date: " + ex);
 				}
 			}
-			catch(NumberFormatException ex){
-				System.out.println(w + " not a valid weight: " + ex);
-			}	
+			else
+				System.out.println(w + " not a valid weight");
+			
 		}
 		else
 			System.out.println("\nOnly 2 values can be entered (weight and date)\n");
@@ -221,15 +233,14 @@ public class MealLog
 
 		if(ent.length == 3)
 		{
-			try
-			{
-				String ex = ent[0].trim();
-				String al = ent[1].trim();
-				String su = ent[2].trim();
+			String ex = ent[0].trim();
+			String al = ent[1].trim();
+			String su = ent[2].trim();
 
-				int exercised = Integer.parseInt(ex);
-				int alcohol = Integer.parseInt(al);
-				int sugar = Integer.parseInt(su);
+			int exercised = validateInt(ex);
+			int alcohol = validateInt(al);
+			int sugar = validateInt(su);
+			if(exercised != -1 && alcohol != -1 && sugar != -1){
 				boolean exPass = true;
 				boolean alPass = true;
 				boolean suPass = true;
@@ -267,10 +278,8 @@ public class MealLog
 					if(!suPass) System.out.println(sugar + " is not an allowed sugar value");
 				}
 			}
-			catch(NumberFormatException e)
-			{
-				System.out.println("Invalid integer entered: " + e);
-			}
+			else
+				System.out.println("Invalid integer entered");
 		}
 		else
 			System.out.println("Only 3 values can be entered\n");
@@ -452,11 +461,8 @@ public class MealLog
 
 			if(value != "")
 			{
-				try
-				{
-					
-					int entered = Integer.parseInt(value);
-
+				int entered = validateInt(value);
+				if(entered != -1){
 					switch(entered)
 					{
 						case 1:
@@ -489,10 +495,8 @@ public class MealLog
 							break;
 					}
 				}
-				catch(NumberFormatException e)
-				{
-					System.out.println(value + " not a valid integer: " + e);
-				}
+				else
+					System.out.println(value + " not a valid integer");
 			}
 		}
 		
