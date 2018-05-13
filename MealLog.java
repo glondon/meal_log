@@ -85,7 +85,8 @@ public class MealLog
 			"5. View meals",
 			"6. Log daily results",
 			"7. View daily stats",
-			"8. Log weight"
+			"8. Log weight",
+			"9. View weight log"
 		};
 
 		for(int i = 0; i < menu.length; i++)
@@ -296,6 +297,11 @@ public class MealLog
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 		return df.format(today);
+	}
+
+	private void viewWeightLog()
+	{
+
 	}
 
 	private void viewMeals()
@@ -524,6 +530,9 @@ public class MealLog
 							break;
 						case 8:
 							m.logWeight();
+							break;
+						case 9:
+							m.viewWeightLog();
 							break;
 						default:
 							System.out.println("Not a valid entry");
