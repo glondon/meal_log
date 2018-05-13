@@ -85,7 +85,8 @@ public class MealLog
 			"5. View meals",
 			"6. Log daily results",
 			"7. View daily stats",
-			"8. Log weight"
+			"8. Log weight",
+			"9. View weight log"
 		};
 
 		for(int i = 0; i < menu.length; i++)
@@ -296,6 +297,30 @@ public class MealLog
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 		return df.format(today);
+	}
+
+	private void viewWeightLog()
+	{
+		LocalDate t = LocalDate.now();
+		String m = t.withDayOfMonth(1).toString();
+		String q = "SELECT * FROM " + WEIGHT_TBL + " WHERE date_w >= '" + m + "' ORDER BY date_w DESC";
+		System.out.println("Logged weights for month: " + m + "\n");
+		try{
+			rs = stmt.executeQuery(q);
+			int c = 0;
+			while(rs.next()){
+				if(c == 0)
+					System.out.printf("%-3s %-8s", "WEIGHT", "DATE\n");
+
+				System.out.printf("%-3s %-8s", rs.getInt("pounds"), rs.getDate("date_w") + "\n");
+				c++;
+			}
+
+			System.out.println("\nTotal logged: " + c);
+		}
+		catch(SQLException e){
+			System.out.println("Problem accessing data: " + e);
+		}
 	}
 
 	private void viewMeals()
@@ -524,6 +549,9 @@ public class MealLog
 							break;
 						case 8:
 							m.logWeight();
+							break;
+						case 9:
+							m.viewWeightLog();
 							break;
 						default:
 							System.out.println("Not a valid entry");
