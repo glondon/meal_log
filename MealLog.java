@@ -107,12 +107,12 @@ public class MealLog
 
 	private static String validateDate(String s)
 	{
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date d;
 		String sd = "";
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		try{
-			d = df.parse(s);
-			return d.toString();
+			d =	df.parse(s);
+			return df.format(d);
 		}
 		catch(ParseException e){
 			return sd;
