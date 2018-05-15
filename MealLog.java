@@ -340,9 +340,9 @@ public class MealLog
 			while(rs.next()){
 
 				if(count == 0)
-					System.out.printf("%-3s %-8s %-7s %-5s %-5s %n", "ID", "MEAL", "RESULT", "SIZE", "DATE");
+					System.out.printf("%-3s %-10s %-7s %-5s %-5s %n", "ID", "MEAL", "RESULT", "SIZE", "DATE");
 
-				System.out.printf("%-3d %-8s %-7s %-5s %tF %n", 
+				System.out.printf("%-3d %-10s %-7s %-5s %tF %n", 
 					rs.getInt("id"), rs.getString("time"), rs.getString("result"), rs.getString("meal_size"), rs.getDate("date_consumed"));
 
 				count++;
