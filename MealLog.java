@@ -139,6 +139,7 @@ public class MealLog
 				String sd = validateDate(d);
 				if(sd != ""){
 					if(pass){
+						int last = this.getLastWeight();
 						try{
 							String q = "INSERT INTO " + WEIGHT_TBL + " (pounds, date_w) VALUES (?, ?)";
 							PreparedStatement stmt = db.prepareStatement(q);
@@ -146,6 +147,19 @@ public class MealLog
 								stmt.setString(2, sd);
 								stmt.execute();
 								System.out.println("weight successfully logged");
+				
+								if(last != 0){
+									int diff = 0;
+									if(last > iw){
+										diff = last - iw;
+										System.out.println("\nCongrats, you lost " + diff + " pounds");
+									}
+									else{
+										diff = iw - last;
+										System.out.println("\nSorry, you gained " + diff + " pounds");
+									}
+									System.out.println("Last weight: " + last);
+								}
 						}
 						catch(SQLException ex){
 							System.out.println("DB insert error: " + ex);
@@ -162,6 +176,22 @@ public class MealLog
 		else
 			System.out.println("\nOnly 2 values can be entered (weight and date)\n");
 		
+	}
+
+	private int getLastWeight()
+	{
+		String q = "SELECT pounds FROM " + WEIGHT_TBL + " ORDER BY id DESC LIMIT 1";
+		int toReturn = 0;
+		try{
+			rs = stmt.executeQuery(q);
+			while(rs.next())
+				toReturn = rs.getInt("pounds");
+
+			return toReturn;
+		}
+		catch(SQLException e){
+			return toReturn;
+		}
 	}
 
 	private void logMeal()
