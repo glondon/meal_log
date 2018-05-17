@@ -223,7 +223,7 @@ public class MealLog
 			{
 				String sd = validateDate(date);
 				if(sd != ""){
-					if(!this.checkExistingMeal(meal, sd)){
+					if(!this.mealExists(meal, sd)){
 						try{
 							String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
 
@@ -262,7 +262,7 @@ public class MealLog
 
 	}
 
-	private boolean checkExistingMeal(String m, String d)
+	private boolean mealExists(String m, String d)
 	{
 		boolean exists = false;
 		String q = "SELECT * FROM " + MEALS_TBL + " WHERE time = '" + m + "' AND date_consumed = '" + d + "' LIMIT 1";
