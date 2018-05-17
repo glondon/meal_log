@@ -223,21 +223,25 @@ public class MealLog
 			{
 				String sd = validateDate(date);
 				if(sd != ""){
-					try{
-						String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
+					if(!this.mealExists(meal, sd)){
+						try{
+							String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
 
-						PreparedStatement stmt = db.prepareStatement(query);
-						stmt.setString(1, meal);
-						stmt.setString(2, pass);
-						stmt.setString(3, size);
-						stmt.setString(4, sd);
-						stmt.execute();
+							PreparedStatement stmt = db.prepareStatement(query);
+							stmt.setString(1, meal);
+							stmt.setString(2, pass);
+							stmt.setString(3, size);
+							stmt.setString(4, sd);
+							stmt.execute();
 
-						System.out.println("Meal successfully logged");
+							System.out.println("Meal successfully logged");
+						}
+						catch(SQLException e){
+							System.out.println("DB insert error: " + e);
+						}
 					}
-					catch(SQLException e){
-						System.out.println("DB insert error: " + e);
-					}
+					else
+						System.out.println("Meal already logged for that meal period");
 				}
 				else
 					System.out.println("Date validation failed");
@@ -256,6 +260,22 @@ public class MealLog
 		else
 			System.out.println("Error: 3 values must be entered");
 
+	}
+
+	private boolean mealExists(String m, String d)
+	{
+		boolean exists = false;
+		String q = "SELECT * FROM " + MEALS_TBL + " WHERE time = '" + m + "' AND date_consumed = '" + d + "' LIMIT 1";
+		try{
+			rs = stmt.executeQuery(q);
+			while(rs.next())
+				exists = true;
+
+			return exists;
+		}
+		catch(SQLException e){
+			return exists;
+		}
 	}
 
 	private void logDaily()
