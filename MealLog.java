@@ -223,21 +223,25 @@ public class MealLog
 			{
 				String sd = validateDate(date);
 				if(sd != ""){
-					try{
-						String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
+					if(!this.checkExistingMeal(meal, sd)){
+						try{
+							String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
 
-						PreparedStatement stmt = db.prepareStatement(query);
-						stmt.setString(1, meal);
-						stmt.setString(2, pass);
-						stmt.setString(3, size);
-						stmt.setString(4, sd);
-						stmt.execute();
+							PreparedStatement stmt = db.prepareStatement(query);
+							stmt.setString(1, meal);
+							stmt.setString(2, pass);
+							stmt.setString(3, size);
+							stmt.setString(4, sd);
+							stmt.execute();
 
-						System.out.println("Meal successfully logged");
+							System.out.println("Meal successfully logged");
+						}
+						catch(SQLException e){
+							System.out.println("DB insert error: " + e);
+						}
 					}
-					catch(SQLException e){
-						System.out.println("DB insert error: " + e);
-					}
+					else
+						System.out.println("Meal already logged for that meal period");
 				}
 				else
 					System.out.println("Date validation failed");
