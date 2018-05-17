@@ -258,6 +258,22 @@ public class MealLog
 
 	}
 
+	private boolean checkExistingMeal(String m, String d)
+	{
+		boolean exists = false;
+		String q = "SELECT * FROM " + MEALS_TBL + " WHERE time = '" + m + "' AND date_consumed = '" + d + "' LIMIT 1";
+		try{
+			rs = stmt.executeQuery(q);
+			while(rs.next())
+				exists = true;
+
+			return exists;
+		}
+		catch(SQLException e){
+			return exists;
+		}
+	}
+
 	private void logDaily()
 	{
 		System.out.println("Enter 1 or 0 (true/false) - daily Exercise, alcohol, & sugar (comma separated):\n");
