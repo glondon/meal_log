@@ -389,6 +389,8 @@ public class MealLog
 			int w = 0;
 			int t = 0;
 			int l = 0;
+			int p = 0;
+			int f = 0;
 
 			while(rs.next()){
 
@@ -398,6 +400,8 @@ public class MealLog
 				if(rs.getString("result").equals("win")) w++;
 				if(rs.getString("result").equals("tie")) t++;
 				if(rs.getString("result").equals("loss")) l++;
+				if(rs.getString("meal_size").equals("pass")) p++;
+				if(rs.getString("meal_size").equals("fail")) f++;
 
 				System.out.printf("%-3d %-10s %-7s %-5s %tF %n", 
 					rs.getInt("id"), rs.getString("time"), rs.getString("result"), rs.getString("meal_size"), rs.getDate("date_consumed"));
@@ -407,6 +411,7 @@ public class MealLog
 				
 			if(count > 0){
 				System.out.println("\nWINS: " + w + " TIES: " + t + " LOSSES: " + l);
+				System.out.println("SIZE PASS: " + p + " SIZE FAIL: " + f);
 				System.out.println(count + " results found");
 			}
 			else
