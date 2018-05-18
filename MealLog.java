@@ -386,11 +386,28 @@ public class MealLog
 		{
 			rs = stmt.executeQuery(query);
 			int count = 0;
+			int w = 0;
+			int t = 0;
+			int l = 0;
+			int p = 0;
+			int f = 0;
+			int b = 0;
+			int lu = 0;
+			int d = 0;
 
 			while(rs.next()){
 
 				if(count == 0)
 					System.out.printf("%-3s %-10s %-7s %-5s %-5s %n", "ID", "MEAL", "RESULT", "SIZE", "DATE");
+
+				if(rs.getString("result").equals("win")) w++;
+				if(rs.getString("result").equals("tie")) t++;
+				if(rs.getString("result").equals("loss")) l++;
+				if(rs.getString("meal_size").equals("pass")) p++;
+				if(rs.getString("meal_size").equals("fail")) f++;
+				if(rs.getString("time").equals("breakfast")) b++;
+				if(rs.getString("time").equals("lunch")) lu++;
+				if(rs.getString("time").equals("dinner")) d++;
 
 				System.out.printf("%-3d %-10s %-7s %-5s %tF %n", 
 					rs.getInt("id"), rs.getString("time"), rs.getString("result"), rs.getString("meal_size"), rs.getDate("date_consumed"));
@@ -398,8 +415,12 @@ public class MealLog
 				count++;
 			}
 				
-			if(count > 0)
+			if(count > 0){
+				System.out.println("\nWINS: " + w + " TIES: " + t + " LOSSES: " + l);
+				System.out.println("SIZE PASS: " + p + " SIZE FAIL: " + f);
+				System.out.println("BREAKFAST: " + b + " LUNCH: " + lu + " DINNER: " + d);
 				System.out.println("\n" + count + " results found");
+			}
 			else
 				System.out.println("No results");
 
