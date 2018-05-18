@@ -386,11 +386,18 @@ public class MealLog
 		{
 			rs = stmt.executeQuery(query);
 			int count = 0;
+			int w = 0;
+			int t = 0;
+			int l = 0;
 
 			while(rs.next()){
 
 				if(count == 0)
 					System.out.printf("%-3s %-10s %-7s %-5s %-5s %n", "ID", "MEAL", "RESULT", "SIZE", "DATE");
+
+				if(rs.getString("result").equals("win")) w++;
+				if(rs.getString("result").equals("tie")) t++;
+				if(rs.getString("result").equals("loss")) l++;
 
 				System.out.printf("%-3d %-10s %-7s %-5s %tF %n", 
 					rs.getInt("id"), rs.getString("time"), rs.getString("result"), rs.getString("meal_size"), rs.getDate("date_consumed"));
@@ -398,8 +405,10 @@ public class MealLog
 				count++;
 			}
 				
-			if(count > 0)
-				System.out.println("\n" + count + " results found");
+			if(count > 0){
+				System.out.println("\nWINS: " + w + " TIES: " + t + " LOSSES: " + l);
+				System.out.println(count + " results found");
+			}
 			else
 				System.out.println("No results");
 
