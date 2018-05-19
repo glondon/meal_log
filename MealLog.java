@@ -196,7 +196,7 @@ public class MealLog
 
 	private void logMeal()
 	{
-		System.out.println("\nEnter meal period, (win/tie/loss), size (pass/fail), & date (0 for today) (',' separated):\n");
+		System.out.println("\nEnter meal period, (win/tie/loss), size (pass/fail), & date (0 for today)\n(',' separated):\n");
 
 		Scanner mealRead = new Scanner(System.in);
 		String mealValue = mealRead.nextLine();
@@ -226,7 +226,7 @@ public class MealLog
 					sd = this.formattedDate();
 				else
 					sd = validateDate(date);
-				
+
 				if(sd != ""){
 					if(!this.mealExists(meal, sd)){
 						try{
