@@ -121,7 +121,7 @@ public class MealLog
 
 	private void logWeight()
 	{
-		System.out.println("\nEnter weight and date (comma separated):\n");
+		System.out.println("\nEnter weight and date (0 for today) (comma separated):\n");
 		Scanner r = new Scanner(System.in);
 		String vals = r.nextLine();
 		String[] e = vals.split(",");
@@ -136,7 +136,12 @@ public class MealLog
 					pass = false;
 				}
 
-				String sd = validateDate(d);
+				String sd = "";
+				if(d.equals("0"))
+					sd = this.formattedDate();
+				else
+					sd = validateDate(d);
+				
 				if(sd != ""){
 					if(pass){
 						int last = this.getLastWeight();
@@ -196,7 +201,7 @@ public class MealLog
 
 	private void logMeal()
 	{
-		System.out.println("\nEnter meal period, (win/tie/loss), size (pass/fail), & date (',' separated):\n");
+		System.out.println("\nEnter meal period, (win/tie/loss), size (pass/fail), & date (0 for today)\n(',' separated):\n");
 
 		Scanner mealRead = new Scanner(System.in);
 		String mealValue = mealRead.nextLine();
@@ -221,7 +226,12 @@ public class MealLog
 
 			if(mealValidated && passValidated && sizeValidated)
 			{
-				String sd = validateDate(date);
+				String sd = "";
+				if(date.equals("0"))
+					sd = this.formattedDate();
+				else
+					sd = validateDate(date);
+
 				if(sd != ""){
 					if(!this.mealExists(meal, sd)){
 						try{
