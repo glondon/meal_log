@@ -151,6 +151,7 @@ public class MealLog
 								stmt.setInt(1, iw);
 								stmt.setString(2, sd);
 								stmt.execute();
+								System.out.println("Inserting weight...");
 								System.out.println("weight successfully logged");
 				
 								if(last != 0){
@@ -243,7 +244,7 @@ public class MealLog
 							stmt.setString(3, size);
 							stmt.setString(4, sd);
 							stmt.execute();
-
+							System.out.println("Inserting meal...");
 							System.out.println("Meal successfully logged");
 						}
 						catch(SQLException e){
@@ -328,7 +329,7 @@ public class MealLog
 						stmt.setInt(3, sugar);
 						stmt.setString(4, saveDate);
 						stmt.execute();
-
+						System.out.println("Inserting result...");
 						System.out.println("Daily result successfully logged");
 					}
 					catch(SQLException e)
