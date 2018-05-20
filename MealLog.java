@@ -146,12 +146,12 @@ public class MealLog
 					if(pass){
 						int last = this.getLastWeight();
 						try{
+							System.out.println("Inserting weight...");
 							String q = "INSERT INTO " + WEIGHT_TBL + " (pounds, date_w) VALUES (?, ?)";
 							PreparedStatement stmt = db.prepareStatement(q);
 								stmt.setInt(1, iw);
 								stmt.setString(2, sd);
 								stmt.execute();
-								System.out.println("Inserting weight...");
 								System.out.println("weight successfully logged");
 				
 								if(last != 0){
@@ -236,15 +236,14 @@ public class MealLog
 				if(sd != ""){
 					if(!this.mealExists(meal, sd)){
 						try{
+							System.out.println("Inserting meal...");
 							String query = "INSERT INTO " + MEALS_TBL + " (time, result, meal_size, date_consumed) VALUES (?, ?, ?, ?)";
-
 							PreparedStatement stmt = db.prepareStatement(query);
 							stmt.setString(1, meal);
 							stmt.setString(2, pass);
 							stmt.setString(3, size);
 							stmt.setString(4, sd);
 							stmt.execute();
-							System.out.println("Inserting meal...");
 							System.out.println("Meal successfully logged");
 						}
 						catch(SQLException e){
@@ -323,13 +322,13 @@ public class MealLog
 
 					try
 					{
+						System.out.println("Inserting result...");
 						PreparedStatement stmt = db.prepareStatement(query);
 						stmt.setInt(1, exercised);
 						stmt.setInt(2, alcohol);
 						stmt.setInt(3, sugar);
 						stmt.setString(4, saveDate);
 						stmt.execute();
-						System.out.println("Inserting result...");
 						System.out.println("Daily result successfully logged");
 					}
 					catch(SQLException e)
