@@ -40,7 +40,7 @@ public class MealLog
 
 	private void getWhys()
 	{
-		String query = "SELECT why FROM " + WHYS_TBL + " ORDER BY why";
+		String query = "SELECT why FROM " + WHYS_TBL + " ORDER BY RAND()";
 		System.out.println("Reasons to lose weight (ENTER to continue 'q' to quit)\n");
 		String today = this.formattedDate();
 		String actionQuery = "INSERT INTO actions (viewed_whys) VALUES (?)";
