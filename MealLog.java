@@ -27,7 +27,7 @@ public class MealLog
 	{
 		try
 		{
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			db = DriverManager.getConnection("jdbc:mysql://localhost:3306/meal_log", "root", "");
 			stmt = db.createStatement();
 		}
