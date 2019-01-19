@@ -17,6 +17,7 @@ public class MealLog
 	private static final String[] MEALS = {"breakfast", "lunch", "dinner"};
 	private static final String[] RESULT = {"win", "tie", "loss"};
 	private static final String[] SIZE = {"pass", "fail"};
+	private static final String MENU_TBL = "menu";
 	private static final String ACTIONS_TBL = "actions";
 	private static final String DAILY_TBL = "daily";
 	private static final String MEALS_TBL = "meals";
@@ -77,20 +78,18 @@ public class MealLog
 
 	private void menu()
 	{
-		String[] menu = {
-			"1. Close application",
-			"2. View my whys",
-			"3. View menu",
-			"4. Log a meal",
-			"5. View meals",
-			"6. Log daily results",
-			"7. View daily stats",
-			"8. Log weight",
-			"9. View weight log"
-		};
+		String q = "SELECT * FROM " + MENU_TBL;
 
-		for(int i = 0; i < menu.length; i++)
-			System.out.println(menu[i]);
+		try{
+			rs = stmt.executeQuery(q);
+			while(rs.next())
+				System.out.println(rs.getInt(1) + ". " + rs.getString(2));	
+
+			rs.close();
+		}
+		catch(SQLException e){
+			System.out.println("DB Error: " + e);
+		}
 	}
 
 	private static int validateInt(String s)
