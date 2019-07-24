@@ -377,7 +377,7 @@ public class MealLog
 				if(c == 0)
 					System.out.printf("%-3s %-8s", "WEIGHT", "DATE\n");
 
-				System.out.printf("%-3s %-8s", rs.getInt("pounds"), rs.getDate("date_w") + "\n");
+				System.out.printf("%-3s %-8s", rs.getInt("pounds") + "lbs", rs.getDate("date_w") + "\n");
 				c++;
 			}
 
