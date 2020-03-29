@@ -473,6 +473,8 @@ public class MealLog
 			int alFail = 0;
 			int suPass = 0;
 			int suFail = 0;
+			int qsPass = 0;
+			int qsFail = 0;
 
 			while(rs.next())
 			{
@@ -480,6 +482,11 @@ public class MealLog
 					mePass++;
 				else
 					meFail++;
+
+				if(rs.getInt("qty_passed") == 1)
+					qsPass++;
+				else
+					qsFail++;
 
 				if(rs.getInt("exercised") == 1)
 					exPass++;
@@ -505,6 +512,8 @@ public class MealLog
 				//Show results
 				System.out.println("Ate Healthly: " + mePass);
 				System.out.println("Ate Poorly: " + meFail);
+				System.out.println("Ate Good Sizes: " + qsPass);
+				System.out.println("Ate Poor Sizes: " + qsFail);
 				System.out.println("Exercised: " + exPass);
 				System.out.println("Lazy:" + exFail);
 				System.out.println("Drank: " + alFail);
