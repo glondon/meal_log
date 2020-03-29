@@ -312,18 +312,16 @@ public class MealLog
 		int meals = validateInt(mp);
 		int size = validateInt(qs);
 
-		if(exercised != -1 && alcohol != -1 && sugar != -1 && meals != -1 && size != -1){
-			boolean exPass = true;
-			boolean alPass = true;
-			boolean suPass = true;
-			boolean mpPass = true;
-			boolean qsPass = true;
-			
-		}
-		else{
+		if(exercised == -1 || alcohol == -1 || sugar == -1 || meals == -1 || size == -1){
 			System.out.println("Invalid integer entered");
-			return
+			return;	
 		}
+
+		boolean exPass = true;
+		boolean alPass = true;
+		boolean suPass = true;
+		boolean mpPass = true;
+		boolean qsPass = true;
 
 		if(exercised < 0 || exercised > 1) exPass = false;
 		if(alcohol < 0 || alcohol > 1) alPass = false;
