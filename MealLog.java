@@ -289,39 +289,43 @@ public class MealLog
 
 	private void logDaily()
 	{
-		System.out.println("Enter 1 or 0 (true/false) - daily exercise, alcohol, sugar, & meals passed (comma separated):\n");
+		System.out.println("Enter 1 or 0 (true/false) - exercised, alcohol, sugar, healthy food, & qty/size (comma separated):\n");
 
 		Scanner entered = new Scanner(System.in);
 		String values = entered.nextLine();
 		String[] ent = values.split(",");
 
-		if(ent.length == 4)
+		if(ent.length == 5)
 		{
 			String ex = ent[0].trim();
 			String al = ent[1].trim();
 			String su = ent[2].trim();
 			String mp = ent[3].trim();
+			String qs = ent[4].trim();
 
 			int exercised = validateInt(ex);
 			int alcohol = validateInt(al);
 			int sugar = validateInt(su);
 			int meals = validateInt(mp);
-			if(exercised != -1 && alcohol != -1 && sugar != -1 && meals != -1){
+			int size = validateInt(qs);
+			if(exercised != -1 && alcohol != -1 && sugar != -1 && meals != -1 && size != -1){
 				boolean exPass = true;
 				boolean alPass = true;
 				boolean suPass = true;
 				boolean mpPass = true;
+				boolean qsPass = true;
 
 				if(exercised < 0 || exercised > 1) exPass = false;
 				if(alcohol < 0 || alcohol > 1) alPass = false;
 				if(sugar < 0 || sugar > 1) suPass = false;
 				if(meals < 0 || meals > 1) mpPass = false;
+				if(size < 0 || size > 1) qsPass = false;
 
-				if(exPass && alPass && suPass && mpPass)
+				if(exPass && alPass && suPass && mpPass && qsPass)
 				{
 					
 					String saveDate = this.formattedDate();
-					String query = "INSERT INTO " + DAILY_TBL + " (exercised, alcohol, sugar, meals_passed, date_affected) VALUES (?, ?, ?, ?, ?)";
+					String query = "INSERT INTO " + DAILY_TBL + " (exercised, alcohol, sugar, meals_passed, qty_passed, date_affected) VALUES (?, ?, ?, ?, ?, ?)";
 
 					try
 					{
@@ -331,7 +335,8 @@ public class MealLog
 						stmt.setInt(2, alcohol);
 						stmt.setInt(3, sugar);
 						stmt.setInt(4, meals);
-						stmt.setString(5, saveDate);
+						stmt.setInt(5, size);
+						stmt.setString(6, saveDate);
 						stmt.execute();
 						System.out.println("Daily result successfully logged");
 					}
@@ -346,6 +351,7 @@ public class MealLog
 					if(!alPass) System.out.println(alcohol + " is not an allowed alcohol value");
 					if(!suPass) System.out.println(sugar + " is not an allowed sugar value");
 					if(!mpPass) System.out.println(meals + " is not an allowed meals passed value");
+					if(!qsPass) System.out.println(size + " is not an allowed qty passed value");
 				}
 			}
 			else
